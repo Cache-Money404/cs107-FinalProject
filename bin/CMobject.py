@@ -17,9 +17,12 @@ class CMobject():
     1
     """
     #Constructor sets value and derivative
-    def __init__(self, val, der = 1.0): #TODO not a valid entry (int/float)
-            self.val = val
-            self.der = der
+    def __init__(self, val, der = 1.0):
+        try:       
+            self.val = float(val)
+            self.der = float(der)
+        except ValueError:
+            print('ValueError: val and der must be real numbers.')
     
     # overload methods to allow for addition of non-class values
     
@@ -75,23 +78,23 @@ class CMobject():
         
     #TODO - DOUBLE CHECK POWER RULES esp. for similar to x^(2x+1) case
 
-    def __pow__(self, other):
-        
-        if self.der == 0: # if constant, follow exponent rules d/dx[a] = x'*ln(a)*a^x
-            try:
-                return CMobject(self.val**other.val, other.der*np.log(self.val)*(self.val**other.val))
-            except AttributeError:
-                other = CMobject(other, 0) #derivative of a constant is zero
-                return CMobject(self.val**other.val, other.der*np.log(self.val)*(self.val**other.val))
-
-        elif type(other) == int or type(other) == float: # if constant, follow power rules d/dx[x^a] = x'*a*x^(a-1)
-            try:
-                return CMobject(self.val**other.val, other.val*self.der*(self.val**(other.val - 1)))
-            except AttributeError:
-                other = CMobject(other, 0) #derivative of a constant is zero
-                return CMobject(self.val**other.val, other.val*self.der*(self.val**(other.val - 1)))
-        #TODO - ADD COMPLICATED CASE X^X or variety e.g. (2x)^(2x) OR x^(2x+1)
+    # generalized version of f(x)^g(x) from 
+    # https://math.stackexchange.com/questions/1588166/derivative-of-functions-of-the-form-fxgx
+    # h(x) = f(x)^g(x)
+    # h'(x) = (f(x)^g(x))*(g'(x)*ln(f(x))+(g(x)*f'(x))/f(x))
+    def __pow__(self, other):  
     
-    # TODO ADD REVERSE POWER
+        try:
+            return CMobject(self.val**other.val, (self.val**other.val)*(other.der*np.log(np.abs(self.val))+(other.val*self.der)/self.val)) 
+        except AttributeError:
+            other = CMobject(other, 0) #derivative of a constant is zero
+            return CMobject(self.val**other.val, (self.val**other.val)*(other.der*np.log(np.abs(self.val))+(other.val*self.der)/self.val))
+               
+        
     def __rpow__(self,other):
-        pass
+    
+        try:
+            return CMobject(other.val**self.val, (other.val**self.val)*(self.der*np.log(np.abs(other.val))+(self.val*other.der)/other.val)) 
+        except AttributeError:
+            other = CMobject(other, 0) #derivative of a constant is zero
+            return CMobject(other.val**self.val, (other.val**self.val)*(self.der*np.log(np.abs(other.val))+(self.val*other.der)/other.val))
