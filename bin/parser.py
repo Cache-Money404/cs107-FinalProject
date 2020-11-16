@@ -39,7 +39,8 @@ valid_operations = {
 print("Intructions:")
 print("Subfunctions include constants")
 print("Example subfunctions: '2sin(x)', 'e^x', 'log'x', '10+x'")
-print("Do NOT enter 2 subfunctions together [e.g. log(10+x)]. Enter separately.")
+print("Do NOT enter 2 subfunctions together [e.g. log(10+x)].")
+print("Instead, enter separately as log(x) and 10+x.")
 
 numFxns = int(input("How many subfunctions?")) #initialize as user input number
 f_list = []
@@ -61,11 +62,15 @@ j = 0
 open_par = 0
 closed_par = 0
 eval_brackets = 0
+par_depth = 0
+bracket_depth = 0
+
 while j < numFxns:
     q1 = input("Open parentheses? (y/n)").upper()
     if q1 == "Y":
         orderString += "("
         open_par += 1
+        par_depth += 1
         print(orderString)
     else:
         pass
@@ -75,6 +80,7 @@ while j < numFxns:
         if q2 == "Y":
             orderString += ")"
             closed_par += 1
+            par_depth -= 1
             print(orderString)
         else:
             pass
