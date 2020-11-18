@@ -1,20 +1,22 @@
-import CMobject
 import numpy as np
-def function_library(function_list):
-    for i in function_list:
-        if i == 'sin' or i == 'SIN':
-            return CMobject(np.sin(x.val), np.cos(x.val)*x.der)
-        elif i == 'cos' or i == 'COS':
-            return CMobject(np.cos(x.val), -1*np.sin(x.val)*x.der)
-        elif i == 'tan' or i == 'TAN':
-            return CMobject(np.tan(x.val), np.arccos(x.val)*x.der)
-        elif i == 'e**x':
-            return CMobject(np.exp(x.val), np.exp(x.val)*x.der)
-        elif i == 'sqrt' :
-            return CMobject(np.sqrt(x.val), x.der/(2*np.sqrt(x.val))
-        elif i == 'log10':
-            return CMobject(np.log10(x.val), (1/x.val)
-
-
-
-
+def function_library(function_string):
+    if function_string == 'sin(x)' or function_string == 'SIN(x)':
+        val_out = lambda x: np.sin(x)
+        deriv_out = lambda x: np.cos(x)
+        return val_out, deriv_out
+    elif function_string == 'cos(x)' or function_string == 'COS(x)':
+        val_out = lambda x: np.cos(x)
+        deriv_out = lambda x: -np.sin(x)
+        return val_out, deriv_out
+    elif function_string == 'tan(x)' or function_string == 'TAN(x)':
+        val_out = lambda x: np.tan(x)
+        deriv_out = lambda x: (np.cos(x))**(-2)
+        return val_out, deriv_out
+    elif function_string == 'exp(x)':
+        val_out = lambda x: np.exp(x)
+        deriv_out = lambda x: np.exp(x)
+        return val_out, deriv_out
+    elif function_string == 'ln(x)' or function_string == 'log(x)':
+        val_out = lambda x: np.log(x)
+        deriv_out = lambda x: x**(-1)
+        return val_out, deriv_out
