@@ -7,7 +7,7 @@ before_install:
 install:
     - pip install -r requirements.txt
 script:
-    - coverage run tests.py
-    - pytest --cov = tests/
+    - coverage run test.py
+    - pytest --cov = CMAutoDiff/
 after_success:
     - codecov
