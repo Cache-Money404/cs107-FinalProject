@@ -1,4 +1,5 @@
 import numpy as np
+
 def function_library(function_string):
     if function_string == 'sin(x)' or function_string == 'SIN(x)':
         val_out = lambda x: np.sin(x)

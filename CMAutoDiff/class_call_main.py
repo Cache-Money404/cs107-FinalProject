@@ -1,4 +1,4 @@
-from function_library_v1 import function_library
+from function_library import function_library
 from CMobject import CMobject
 from FuncObj import FuncObj
 import numpy as np

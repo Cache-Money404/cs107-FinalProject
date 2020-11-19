@@ -1,6 +1,6 @@
 import CMobject
 from CMobject import CMobject
-from function_library_v1 import function_library
+from function_library import function_library
 
 class FuncObj(CMobject):
     #Constructor sets value and derivative
