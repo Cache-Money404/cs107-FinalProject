@@ -21,8 +21,8 @@ class CMobject():
         try:
             self.val = float(val)
             self.der = float(der)
-        except ValueError:
-            print('ValueError: val and der must be real numbers.')
+        except:
+            raise ValueError('ValueError: val and der must be real numbers.')
 
     # overload methods to allow for addition of non-class values
 
