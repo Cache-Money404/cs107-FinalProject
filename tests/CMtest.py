@@ -3,7 +3,14 @@ import pytest
 from function_library import function_library
 from CMobject import CMobject
 from FuncObj import FuncObj
+import sys, os.path
+AD_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
++ '/CMAutoDiff/')
+sys.path.append(AD_dir)
 
+import CMobject
+
+#from ...CMAutoDiff.CMobject import CMobject
 
 def test_basic_operation():
     x = CMobject(-3.)
