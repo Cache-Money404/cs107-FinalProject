@@ -1,3 +1,3 @@
 import runpy
 
-runpy.run_path(path_name='tests/CMtests.py')
+runpy.run_path(path_name='tests/CMtest.py')
