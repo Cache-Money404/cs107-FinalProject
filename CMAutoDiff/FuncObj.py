@@ -1,4 +1,3 @@
-import CMobject
 from CMobject import CMobject
 from function_library import function_library
 
