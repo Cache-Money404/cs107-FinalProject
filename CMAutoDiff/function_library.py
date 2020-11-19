@@ -1,6 +1,32 @@
 import numpy as np
 
 def function_library(function_string):
+    """Returns the result of an elementary numpy function and its derivative.
+
+    INPUTS
+    ======
+    function_string : string
+        an elementary function out of the following list:
+        
+        'sin'
+        'cos'
+        'tan'
+        'exp'
+        'ln' or 'log'
+
+    RETURNS
+    =======
+    INPUT         -->   val_out , deriv_out
+    
+    'sin'         --> np.sin(x) , -np.cos(x))
+    'cos'         --> np.cos(x) , np.sin(x))
+    'tan'         --> np.tan(x), np.cos(x))**(-2)
+    'exp'         --> np.exp(x), np.exp(x)
+    'ln' or 'log' --> np.log(x), x**(-1)
+    
+
+    """
+    
     if function_string == 'sin' or function_string == 'SIN':
         val_out = lambda x: np.sin(x)
         deriv_out = lambda x: np.cos(x)

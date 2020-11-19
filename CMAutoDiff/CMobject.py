@@ -1,20 +1,25 @@
 import numpy as np
 
 class CMobject():
-    """Creates a forward automatic differentiation class
+    """Creates a forward automatic differentiation class:
+        CMobject(val, der=1.0)
 
-    ATTRIBUTES
-    ==========
+    INPUTS
+    ======
     val : the value of the object
     der : the derivative of the object, default seed = 1.0
+    
+    RETURNS
+    =======
+    CMobject for forward automatic differentiation
 
     EXAMPLES
     ========
-    >>> x = CMobject(4)
+    >>> x = CMobject(4, 2)
     >>> x.val
     4
     >>> x.der
-    1
+    2
     """
     #Constructor sets value and derivative
     def __init__(self, val, der = 1.0):
@@ -24,6 +29,7 @@ class CMobject():
         except:
             raise ValueError('ValueError: val and der must be real numbers.')
 
+            
     # overload methods to allow for addition of non-class values
 
     def __add__(self, other):
@@ -83,10 +89,14 @@ class CMobject():
             return CMobject(return_val, return_deriv)
         else:
             return CMobject(self.val**other, other*(self.val)**(other-1)*self.der)
-    def __rpow__(self,other):
+    
+    def __rpow__(self, other):
         if isinstance(other, CMobject):
             return other.__pow__(self)
         else:
             return_val = (other)**(self.val)
             return_deriv = np.log(other)*(other)**(self.val)*self.der
             return CMobject(return_val, return_deriv)
+
+    def __neg__(self):
+        return CMobject(-self.val, -self.der)
