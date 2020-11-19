@@ -40,6 +40,11 @@ def test_pow_operations():
     f = x**2 + 2**x + x**x**x**2**x
     assert (f.val,f.der) == (4.0, 4.386294361119891)
     
+def test_negation():
+    x = CMobject(1)
+    y = -x
+    assert (y.val,y.der) == (-1.0, -1.0)
+    
 def test_difficult_derivative_case():    
     x1 = CMobject(1.0)
     
