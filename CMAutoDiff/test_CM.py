@@ -39,6 +39,11 @@ def test_pow_operations():
     x = CMobject(1)
     f = x**2 + 2**x + x**x**x**2**x
     assert (f.val,f.der) == (4.0, 4.386294361119891)
+    
+def test_rpow_operations():
+    x = CMobject(3.0)
+    f = x.__rpow__(x)
+    assert (f.val,f.der) == (27.0, 56.66253179403897)
 
 def test_negation():
     x = CMobject(1)
@@ -52,6 +57,7 @@ def test_difficult_derivative_case():
     test_func1 = FuncObj('sin', FuncObj('tan', x1)) + 2**(FuncObj('cos', x1)) + FuncObj('sin', x1)**(FuncObj('tan', x1))**(FuncObj('exp', x1)) - FuncObj('cos', x1)**2
     print("test_func1 val, der: {}, {}".format(test_func1.val, test_func1.der))
     assert (test_func1.val,test_func1.der) == ( 2.724678163898656, -1.0139897786023675)
+    print(f"Difficult derivative test passed.")
 
 def test_object_input_error():
     with pytest.raises(ValueError):
@@ -74,6 +80,7 @@ def test_newtons_method():
             dx = -f(x).val/f(x).der # Update Delta x_{k}
             if np.abs(dx) < tol: # Stop iteration if solution found
                 print(f"root found at: x={x.val} after {i+1} iterations.")
+                print(f"Newton's Method test passed.")
                 root = x.val
                 return root
                 break
@@ -89,6 +96,8 @@ def test_newtons_method():
     assert result == 0.4858388639605664
 
 def test_all():
+    print('Running tests...')
+    print('''    (all basic tests results suppressed except difficult derivative and Newton's method)''')
     test_mul_operation()
     test_add_sub_operations()
     test_radd_operation()
@@ -101,6 +110,7 @@ def test_all():
     test_natural_log_function_library()
     test_difficult_derivative_case()
     test_newtons_method()
+    print('...all tests run successfully!')
 
 test_all()
 
