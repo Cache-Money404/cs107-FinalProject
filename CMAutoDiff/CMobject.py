@@ -29,6 +29,8 @@ class CMobject():
         except:
             raise ValueError('ValueError: val and der must be real numbers.')
 
+    def __repr__(self):
+        return f'CMobject(val = {self.val}, der = {self.der})'
             
     # overload methods to allow for addition of non-class values
 
