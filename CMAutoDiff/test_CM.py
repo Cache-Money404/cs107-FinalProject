@@ -13,6 +13,12 @@ from CMobject import CMobject
 def test_repr():
     x = CMobject(3)
     assert x.__repr__() == 'CMobject(val = 3.0, der = 1.0)'
+    
+def test_eq():
+    x = CMobject(10,3)
+    assert CMobject(10,3) == x
+    assert CMobject(10) != x
+    assert 10 != x
 
 def test_mul_operation():
     x = CMobject(-3.)
@@ -93,6 +99,7 @@ def test_tanh():
     assert (f.val,f.der) == (0.964027580075817, 0.07065082485316435)
     # (np.tanh(2), np.cosh(2)**(-2))
     #print('passed hyperbolic tangent (and therefore sinh and cosh)')
+    
 
 def test_difficult_derivative_case():
     x1 = CMobject(1.0)
@@ -127,6 +134,13 @@ def test_log_CMfunc():
     res = CMfunc.log(number,base) #using alternative base
     assert (f.val,f.der) == (0.6931471805599453, 0.5)
     assert res == 3.0
+    
+    #print('passed log test')
+    
+def test_sqrt():
+    x = CMobject(2) 
+    f = CMfunc.sqrt(x)
+    assert (f.val,f.der) == (2**.5, 0.5*(2**(-.5)))
 
 def test_newtons_method():
     # define newton's method to work with CMobject and FuncObj
@@ -154,6 +168,8 @@ def test_newtons_method():
 def test_all():
     print('Running tests...')
     print('''    (all basic tests results suppressed except difficult derivative and Newton's method)''')
+    test_repr()
+    test_eq()
     test_mul_operation()
     test_add_sub_operations()
     test_radd_operation()
@@ -170,11 +186,13 @@ def test_all():
     test_object_input_error()
     test_CMfunc_constant()
     test_log_CMfunc()
+    test_sqrt()
     test_difficult_derivative_case()
     test_newtons_method()
     print('...all tests run successfully!')
 
 test_all()
 
-#if __name__ == "__main__":
-#    print("Here")
+# if __name__ == "__main__":
+#     print("Here")
+#     test_all()
