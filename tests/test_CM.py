@@ -65,7 +65,7 @@ def test_difficult_derivative_case():
     ## the following is a test case for: sin(tan(x)) + 2^(cos(x)) + sin(x)^tan(x)^exp(x) - (cos(x))^2, seeded at x = 1. Try it in autograd, it works.
     test_func1 = FuncObj('sin', FuncObj('tan', x1)) + 2**(FuncObj('cos', x1)) + FuncObj('sin', x1)**(FuncObj('tan', x1))**(FuncObj('exp', x1)) - FuncObj('cos', x1)**2
     print("test_func1 val, der: {}, {}".format(test_func1.val, test_func1.der))
-    assert (test_func1.val,test_func1.der) == ( 2.7246781638986564, -1.0139897786023675)
+    assert (test_func1.val,test_func1.der) == ( 2.724678163898656, -1.0139897786023675)
     print(f"Difficult derivative test passed.")
 
 def test_object_input_error():
