@@ -1,5 +1,5 @@
 import numpy as np
-from CMobject import CMobject
+from CMAutoDiff.CMobject import CMobject
 
 # trig functions
 
