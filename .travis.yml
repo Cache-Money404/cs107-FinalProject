@@ -7,6 +7,6 @@ before_install:
 install:
     - pip install -r requirements.txt
 script:
-    - pytest --cov=CMAutoDiff
+    - pytest --cov=.
 after_success:
     - codecov
