@@ -1,5 +1,8 @@
-from CMobject import CMobject
-from function_library import function_library
+# from CMobject import CMobject
+# from function_library import function_library
+
+from CMAutoDiff.CMobject import CMobject
+from CMAutoDiff.function_library import function_library
 
 class FuncObj(CMobject):
     """Creates a CMobject for forward automatic differentiation

@@ -1,12 +1,21 @@
+# import pytest
+# import sys, os.path
+# AD_dir = os.path.abspath(os.path.dirname(__file__)) # needed so pytest works correctly
+# sys.path.append(AD_dir) # needed so pytest works correctly
+
+# import numpy as np
+# from function_library import function_library
+# from CMobject import CMobject
+# from FuncObj import FuncObj
+
 import pytest
 import sys, os.path
-AD_dir = os.path.abspath(os.path.dirname(__file__)) # needed so pytest works correctly
-sys.path.append(AD_dir) # needed so pytest works correctly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import numpy as np
-from function_library import function_library
-from CMobject import CMobject
-from FuncObj import FuncObj
+from CMAutoDiff.function_library import function_library
+from CMAutoDiff.CMobject import CMobject
+from CMAutoDiff.FuncObj import FuncObj
 
 # tests for CMobject
 
@@ -56,7 +65,7 @@ def test_difficult_derivative_case():
     ## the following is a test case for: sin(tan(x)) + 2^(cos(x)) + sin(x)^tan(x)^exp(x) - (cos(x))^2, seeded at x = 1. Try it in autograd, it works.
     test_func1 = FuncObj('sin', FuncObj('tan', x1)) + 2**(FuncObj('cos', x1)) + FuncObj('sin', x1)**(FuncObj('tan', x1))**(FuncObj('exp', x1)) - FuncObj('cos', x1)**2
     print("test_func1 val, der: {}, {}".format(test_func1.val, test_func1.der))
-    assert (test_func1.val,test_func1.der) == ( 2.724678163898656, -1.0139897786023675)
+    assert (test_func1.val,test_func1.der) == ( 2.7246781638986564, -1.0139897786023675)
     print(f"Difficult derivative test passed.")
 
 def test_object_input_error():
