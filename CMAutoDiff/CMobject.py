@@ -29,7 +29,19 @@ class CMobject():
         except:
             raise ValueError('ValueError: val and der must be real numbers.')
 
+    def __repr__(self):
+        return f'CMobject(val = {self.val}, der = {self.der})'
             
+    # compares two CMobjects to determine if they're equal based on their value AND derivative
+    # overloading __ne__ unecessary because it just inverts __eq__ by default
+    # https://docs.python.org/3/reference/datamodel.html#object.__ne__
+    
+    def __eq__(self, other):
+        if isinstance(other, CMobject):
+            return self.val == other.val and self.der == other.der
+        return False
+            
+    
     # overload methods to allow for addition of non-class values
 
     def __add__(self, other):
