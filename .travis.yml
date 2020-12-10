@@ -10,3 +10,8 @@ script:
     - pytest --cov=CMAutoDiff
 after_success:
     - codecov
+
+deploy:
+  provider: pypi
+  username: "__token__"
+  password: pypi-AgENdGVzdC5weXBpLm9yZwIkZGExN2JlNDgtYTA0Yi00OGRlLWJkMjYtNWQwYTI5ZWM2Mjk5AAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiB02S9hOvBrnTWrHMnrQebU8GaSPWryE5Kol3bG4TjTmw
