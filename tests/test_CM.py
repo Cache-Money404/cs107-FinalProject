@@ -184,46 +184,57 @@ def test_newtons_method():
 def test_repr_CMG():
     x = CMG(3, np.array([1,0]))
     assert x.__repr__() == 'CMGobject(val = 3.0, grad = [1 0])'
+    
+def test_object_input_error_CMG():
+    with pytest.raises(ValueError):
+        CMG('fake', np.array([0,1]))
 
-# TODO
-# def test_eq_CMG():
-#     x = CMG(3, np.array([1,0]))
-#     assert CMG(3, np.array([1,0])) == x
-#     assert CMG(4, np.array([1,0])) != x
-#     assert 3 != x
+
+def test_eq_CMG():
+    x = CMG(3, np.array([1,0]))
+    assert CMG(3, np.array([1,0])) == x
+    assert CMG(4, np.array([1,0])) != x
+    assert 3 != x
 
 def test_mul_CMG():
     x = CMG(-3, np.array([1,0]))
     f = x**3+2*x
     assert f.val, f.grad == -33.0
-    assert f.grad.all() == np.array([29.,  0.]).all()
+    assert np.array_equal(f.grad,np.array([29.,  0.]))
 
 def test_add_sub_operations_CMG():
     x = CMG(1, np.array([1,0]))
     f = x + 2 + x + x + x - 1 - x - x - x
     f2 = 2 + x 
     f3 = 10 - x
-    assert (f.val, f.grad.all()) == (2.0, np.array([1.,  0.]).all())
-    assert (f2.val, f.grad.all()) == (3.0, np.array([1.,  0.]).all())
-    assert (f3.val, f.grad.all()) == (9.0, np.array([-1.,  0.]).all())
+    assert f.val == 2.0
+    assert np.array_equal(f.grad,np.array([1., 0.]))
+    assert f2.val == 3.0
+    assert np.array_equal(f2.grad,np.array([1., 0.]))
+    assert f3.val == 9.0
+    assert np.array_equal(f3.grad,np.array([-1., 0.]))
 
 def test_div_operations_CMG():
     x = CMG(1, np.array([1,0]))
     f = x/(3*x + 1) - x/5 + 5/x
-    assert (f.val,f.grad.all()) == (5.05, np.array([-5.1375, 0.]).all())
+    assert f.val == 5.05
+    assert np.array_equal(f.grad,np.array([-5.1375, 0.]))
     
 def test_pow_operations_CMG():
     x = CMG(1, np.array([1,0]))
     f = x**2 + 2**x + x**x**x**2**x
     x2 = CMG(3.0, np.array([1,0]))
     f2 = x2.__rpow__(x2)
-    assert (f.val,f.grad.all()) == (4.0, np.array([4.386294361119891, 0.]).all())
-    assert (f2.val,f2.grad.all()) == (27.0, np.array([56.66253179403897, 0.]).all())
+    assert  f.val  == 4.0
+    assert np.array_equal(f.grad,np.array([4.386294361119891, 0.]))
+    assert f2.val == 27.0
+    assert np.array_equal(f2.grad,np.array([56.66253179403897, 0.]))
     
 def test_negation_CMG():
     x = CMG(1, np.array([0,1]))
     y = -x
-    assert (y.val,y.grad.all()) == (-1.0, np.array([0, -1]).all())
+    assert y.val == -1.0
+    assert np.array_equal(y.grad,np.array([0, -1]))
 ############### TESTS FOR CMflow ###############
 
 
@@ -261,11 +272,13 @@ def test_all():
     test_newtons_method()
     print('...all CMobject and CMfunc tests run successfully!')
     test_repr_CMG()
+    test_eq_CMG()
     test_mul_CMG()
     test_add_sub_operations_CMG()
     test_div_operations_CMG()
     test_pow_operations_CMG()
     test_negation_CMG()
+    test_object_input_error_CMG()
     print('...all CMGradobject tests run successfully!')
 test_all()
 
