@@ -1,6 +1,9 @@
 import numpy as np
-from CMAutoDiff.CMGradobject import CMGobject as cmg
-import CMAutoDiff.CMfunc_grad as cm
+# from CMAutoDiff.CMGradobject import CMGobject as cmg
+# import CMAutoDiff.CMfunc_grad as cm
+from CMGradobject import CMGobject as cmg
+import CMfunc_grad as cm
+
 import matplotlib.pyplot as plt
 
 def cart2pol(cart_vec): # converts position coordinates
@@ -184,12 +187,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-# phi_uni, v_uni = uniform(test_points_cartesian, A)
-# phi_doub, v_doub = doublet(test_points_cartesian, A, np.array([0.5, 0.5]))
-# phi_unidub, v_unidoub = uni_and_doub(test_points_cartesian, A, A)
-#
-# v_uni_cart = pol2cart_grad(v_uni, cart2pol(test_points_cartesian) )
-# v_doub_cart = pol2cart_grad(v_doub, cart2pol(test_points_cartesian) )
-# v_unidoub_cart = pol2cart_grad(v_unidoub, cart2pol(test_points_cartesian) )
