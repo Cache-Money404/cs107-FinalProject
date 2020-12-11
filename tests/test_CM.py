@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import CMAutoDiff.CMfunc as CMfunc
 from CMAutoDiff.CMobject import CMobject
-from CMAutoDiff.CMGradobject import CMGobject as cmg
+from CMAutoDiff.CMGradobject import CMGobject as CMG
 import CMAutoDiff.CMflow as CMflow
 
 
@@ -178,6 +178,47 @@ def test_newtons_method():
     result = newt(f,x)
     assert result == 0.4858388639605664
 
+
+############### TESTS FOR CMGradobject ###############
+
+def test_repr_CMG():
+    x = CMG(3, np.array([1,0]))
+    assert x.__repr__() == 'CMGobject(val = 3.0, grad = [1 0])'
+
+# TODO
+# def test_eq_CMG():
+#     x = CMG(3, np.array([1,0]))
+#     assert CMG(3, np.array([1,0])) == x
+#     assert CMG(4, np.array([1,0])) != x
+#     assert 3 != x
+
+def test_mul_CMG():
+    x = CMG(-3, np.array([1,0]))
+    f = x**3+2*x
+    assert f.val, f.grad == -33.0
+    assert f.grad.all() == np.array([29.,  0.]).all()
+
+def test_add_sub_operations_CMG():
+    x = CMG(1, np.array([1,0]))
+    f = x + 2 + x + x + x - 1 - x - x - x
+    f2 = 2 + x 
+    f3 = 10 - x
+    assert (f.val, f.grad.all()) == (2.0, np.array([1.,  0.]).all())
+    assert (f2.val, f.grad.all()) == (3.0, np.array([1.,  0.]).all())
+    assert (f3.val, f.grad.all()) == (9.0, np.array([-1.,  0.]).all())
+
+
+############### TESTS FOR CMflow ###############
+
+
+
+
+
+
+
+
+
+
 def test_all():
     print('Running tests...')
     print('''    (all basic tests results suppressed except difficult derivative and Newton's method)''')
@@ -202,8 +243,11 @@ def test_all():
     test_sqrt()
     test_difficult_derivative_case()
     test_newtons_method()
-    print('...all tests run successfully!')
-
+    print('...all CMobject and CMfunc tests run successfully!')
+    test_repr_CMG()
+    test_mul_CMG()
+    test_add_sub_operations_CMG()
+    print('...all CMGradobject tests run successfully!')
 test_all()
 
 # if __name__ == "__main__":
