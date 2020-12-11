@@ -1,8 +1,8 @@
 import numpy as np
-# from CMAutoDiff.CMGradobject import CMGobject as cmg
-# import CMAutoDiff.CMfunc_grad as cm
-from CMGradobject import CMGobject as cmg
-import CMfunc_grad as cm
+from CMAutoDiff.CMGradobject import CMGobject as cmg
+import CMAutoDiff.CMfunc_grad as cm
+# from CMGradobject import CMGobject as cmg
+# import CMfunc_grad as cm
 
 import matplotlib.pyplot as plt
 

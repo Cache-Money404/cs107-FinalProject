@@ -14,14 +14,16 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import matplotlib.pyplot as plt
 import numpy as np
-import CMAutoDiff.CMfunc as CMfunc
+
 from CMAutoDiff.CMobject import CMobject
 from CMAutoDiff.CMGradobject import CMGobject as CMG
+import CMAutoDiff.CMfunc as CMfunc
+import CMAutoDiff.CMfunc_grad as CMfunc_grad
 import CMAutoDiff.CMflow as CMflow
 
 
 
-# tests for CMobject
+############### TESTS for CMobject ###############
 
 def test_repr():
     x = CMobject(3)
@@ -74,7 +76,7 @@ def test_negation():
     assert (y.val,y.der) == (-1.0, -1.0)
     
 
-# tests for CMfunc
+############### TESTS FOR CMfunc ###############
     
 def test_sin():
     x = CMobject(2)
@@ -235,8 +237,14 @@ def test_negation_CMG():
     y = -x
     assert y.val == -1.0
     assert np.array_equal(y.grad,np.array([0, -1]))
-############### TESTS FOR CMflow ###############
+    
+############### TESTS FOR CMfunc_grad ###############
 
+def test_sin_grad():
+    x = CMG(2, np.array([0,1]))
+    f = CMfunc_grad.sin(x)
+    assert f.val == 0.9092974268256817
+    assert np.array_equal(f.grad, np.array([-0., -0.4161468365471424]))
 
 
 
@@ -280,6 +288,9 @@ def test_all():
     test_negation_CMG()
     test_object_input_error_CMG()
     print('...all CMGradobject tests run successfully!')
+    test_sin_grad()
+    
+    print('..all CMfunc_grad tests run successfully!')
 test_all()
 
 # if __name__ == "__main__":
