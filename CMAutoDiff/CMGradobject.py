@@ -56,7 +56,7 @@ class CMGobject():
 
     def __mul__(self, other):
         try:
-            return CMGobject(self.val*other.val, np.matmul(np.array([self.grad, other.grad]).T , np.array([[other.val], [self.val]] )).reshape(-1, 2))
+            return CMGobject(self.val*other.val, np.matmul(np.vstack((self.grad, other.grad)).T, np.array([other.val, self.val] )).reshape(np.shape(self.grad)))
         except AttributeError:
             return CMGobject(self.val*other, self.grad*other)
 
