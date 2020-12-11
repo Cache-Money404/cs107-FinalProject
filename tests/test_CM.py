@@ -207,7 +207,23 @@ def test_add_sub_operations_CMG():
     assert (f2.val, f.grad.all()) == (3.0, np.array([1.,  0.]).all())
     assert (f3.val, f.grad.all()) == (9.0, np.array([-1.,  0.]).all())
 
-
+def test_div_operations_CMG():
+    x = CMG(1, np.array([1,0]))
+    f = x/(3*x + 1) - x/5 + 5/x
+    assert (f.val,f.grad.all()) == (5.05, np.array([-5.1375, 0.]).all())
+    
+def test_pow_operations_CMG():
+    x = CMG(1, np.array([1,0]))
+    f = x**2 + 2**x + x**x**x**2**x
+    x2 = CMG(3.0, np.array([1,0]))
+    f2 = x2.__rpow__(x2)
+    assert (f.val,f.grad.all()) == (4.0, np.array([4.386294361119891, 0.]).all())
+    assert (f2.val,f2.grad.all()) == (27.0, np.array([56.66253179403897, 0.]).all())
+    
+def test_negation_CMG():
+    x = CMG(1, np.array([0,1]))
+    y = -x
+    assert (y.val,y.grad.all()) == (-1.0, np.array([0, -1]).all())
 ############### TESTS FOR CMflow ###############
 
 
@@ -247,6 +263,9 @@ def test_all():
     test_repr_CMG()
     test_mul_CMG()
     test_add_sub_operations_CMG()
+    test_div_operations_CMG()
+    test_pow_operations_CMG()
+    test_negation_CMG()
     print('...all CMGradobject tests run successfully!')
 test_all()
 
