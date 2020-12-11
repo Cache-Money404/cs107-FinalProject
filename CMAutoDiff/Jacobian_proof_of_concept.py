@@ -73,11 +73,6 @@ x2 = cmg(2, np.array([0, 1, 0, 0]))
 x3 = cmg(3, np.array([0, 0, 1, 0]))
 x4 = cmg(4, np.array([0, 0, 0, 1]))
 
-print(cm.log(x3))
-print(3*x4*x3)
-
-print(cm.log(x3) - 3*(x4*x3))
-
 F1_list = [cm.cos(x1 - 2*x2), cm.log(x3) - 3*x4*x3, x2**2, (x1 + x2)/(x3 - x4)  ]
 F2_list = [2*x3 + cm.cos(x1 - 2*x2), 3*x4 - x3, x2**x4, 1/(x3 - x4)  ]
 
