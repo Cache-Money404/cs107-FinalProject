@@ -38,7 +38,7 @@ class CMGobject():
 
     def __eq__(self, other):
         if isinstance(other, CMGobject):
-            return self.val == other.val and self.grad == other.grad
+            return self.val == other.val and np.array_equal(self.grad,other.grad)
         return False
 
 
