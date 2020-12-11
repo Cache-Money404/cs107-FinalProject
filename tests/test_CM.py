@@ -1,12 +1,25 @@
+# import pytest
+# import sys, os.path
+# AD_dir = os.path.abspath(os.path.dirname(__file__)) # needed so pytest works correctly
+# sys.path.append(AD_dir) # needed so pytest works correctly
+
+# import numpy as np
+# from function_library import function_library
+# from CMobject import CMobject
+# from FuncObj import FuncObj
+
 import pytest
 import sys, os.path
-AD_dir = os.path.abspath(os.path.dirname(__file__)) # needed so pytest works correctly
-sys.path.append(AD_dir) # needed so pytest works correctly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+import matplotlib.pyplot as plt
 import numpy as np
-import CMfunc
-from CMobject import CMobject
-#from FuncObj import FuncObj
+import CMAutoDiff.CMfunc as CMfunc
+from CMAutoDiff.CMobject import CMobject
+from CMAutoDiff.CMGradobject import CMGobject as cmg
+import CMAutoDiff.CMflow as CMflow
+
+
 
 # tests for CMobject
 
