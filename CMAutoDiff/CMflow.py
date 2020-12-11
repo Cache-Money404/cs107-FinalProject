@@ -140,12 +140,25 @@ class vortex(Flow):
     def __repr__(self):
         return repr(self._key + ': a vortex of strength {} at (x, y) = {}'.format(self._strength, self._pos ) )
 
+class doublet(source):
+    def compute_flow(self): ## assumes, for now, unitary b
+        for pos in self._points:
+            r = cmg(pos[0], np.array([1., 0.]))
+            theta = cmg(pos[1], np.array([0., 1.]))
+            self.CMGs.append(self._strength*cm.cos(theta)/r)
+
+        return Flow_it(self.CMGs)
+
+    def __repr__(self):
+        return repr(self._key + ': a doublet of strength {} at (x, y) = {}'.format(self._strength, self._pos ) )
+
 def identify_flow(key_in, inputs):
     library = {
         "uniform": uniform,
         "source": source,
         "sink": sink,
-        "vortex": vortex
+        "vortex": vortex,
+        "doublet": doublet
     }
     for key in library:
         if key in key_in:
@@ -170,9 +183,10 @@ def main():
 
     dict_in = {
         "uniform1": [1.],
-        "source1": [2., 0.5, 0.5],
-        "sink1": [2., -0.5, -0.5],
-        "vortex1": [3., 0., 0.],
+        "doublet1": [1., 0., 0.]
+        # "source1": [2., 0.5, 0.5],
+        # "sink1": [2., -0.5, -0.5],
+        # "vortex1": [3., 0., 0.],
     }
     flow_list = []
 
@@ -180,10 +194,9 @@ def main():
         flow_list.append(identify_flow(key, dict_in[key]))
         test_points_cartesian = flow_list[i].rule_out_points(test_points_cartesian)
 
-    print(test_points_cartesian.shape)
-
     print("computing flow gradients for the following potential flow solutions:")
     flow = flow_list[0]
+    print(flow)
     flow.compute_points(test_points_cartesian)
     F = flow.compute_flow()
     for flow in flow_list[1:]:
@@ -195,10 +208,11 @@ def main():
     print("Done. Generating plots:")
     cartesian_gradients, potential = generate_cart_gradients(F, test_points_cartesian)
 
-    fig, (ax_l, ax_r) = plt.subplots(1,2, figsize=(8, 4))
-    ax_l.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0], cartesian_gradients.T[1], scale=1000, scale_units='width')
-    ax_r.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0], cartesian_gradients.T[1], scale=500, scale_units='width')
-    print("\n \n Plots generated. Close window to continue")
+    max_grad = np.max(np.linalg.norm(cartesian_gradients, axis=1))
+    fig, (ax_l, ax_r) = plt.subplots(1,2, figsize=(16, 8))
+    ax_l.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='xy', scale=2.5, scale_units='width', minshaft=1, minlength=1)
+    ax_r.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='uv', scale=2.5, scale_units='xy', minshaft=1, minlength=1)
+    print("\n\nPlots generated. Close window to continue")
     plt.show()
 
 if __name__ == '__main__':
