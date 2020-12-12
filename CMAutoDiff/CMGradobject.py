@@ -2,12 +2,12 @@ import numpy as np
 
 class CMGobject():
     """Creates a forward automatic differentiation class:
-        CMGobject(val, der=1.0)
+        CMGobject(val, grad=np.array([1.0]))
 
     INPUTS
     ======
     val : the value of the object
-    der : the derivative of the object, default seed = 1.0
+    grad : the gradient of the object, default seed = np.array([1.0])
 
     RETURNS
     =======
@@ -15,19 +15,19 @@ class CMGobject():
 
     EXAMPLES
     ========
-    >>> x = CMGobject(4, 2)
+    >>> x = CMGobject(4, np.array([2]))
     >>> x.val
     4
-    >>> x.der
-    2
+    >>> x.grad
+    [2]
     """
     #Constructor sets value and derivative
-    def __init__(self, val, grad_in: np.array):
+    def __init__(self, val, grad: np.array = np.array([1.0])):
         try:
             self.val = float(val)
-            self.grad = grad_in
+            self.grad = grad
         except:
-            raise ValueError('ValueError: val and der must be real numbers.')
+            raise ValueError('ValueError: val and grad must be real numbers.')
 
     def __repr__(self):
         return f'CMGobject(val = {self.val}, grad = {self.grad})'
@@ -101,3 +101,89 @@ class CMGobject():
 
     def __neg__(self):
         return CMGobject(-self.val, -self.grad)
+
+
+class CMvector():
+    """Creates a forward automatic differentiation class for vector valued functions:
+        CMGobject(f_list)
+
+    INPUTS
+    ======
+    f_list : a list of CMGradobjects that have attributes of self.val and self.grad
+
+    RETURNS
+    =======
+    CMvector : a vector valued function for forward automatic differentiation
+
+    EXAMPLES
+    ========
+    >>> F_list = [2*x3 + CMfunc.cos(x1 - 2*x2), 3*x4 - x3, x2**x4, 1/(x3 - x4)  ]
+    >>>     (where x1 thru x4 are of class CMGradobject)
+    >>> F = CMvector(F_list)
+    >>> F.val
+    array([ 5.0100075 , 9. , 16. , -1. ])
+    
+    >>> F.jac
+    array([[ 0.14112001, -0.28224002,  2.        ,  0.        ],
+           [ 0.        ,  0.        , -1.        ,  3.        ],
+           [ 0.        , 32.        ,  0.        , 11.09035489],
+           [-0.        , -0.        , -1.        ,  1.        ]])
+    """
+    def __init__(self, f_list):
+        self.val = np.array([f_list[0].val])
+        self.jac = np.array([ f_list[0].grad ])
+        for func in f_list[1:]:
+            self.val = np.append(self.val, func.val)
+            self.jac = np.vstack((self.jac, [func.grad]))
+    def __add__(self, other):
+        if isinstance(other, CMvector):
+            assert other.val.shape[0] == self.val.shape[0]
+            assert other.jac.shape[1] == self.jac.shape[1]
+            val_out = self.val + other.val
+            jac_out = self.jac + other.jac
+            return_list = []
+            for i, val in enumerate(val_out):
+                return_list.append(CMGobject(val, jac_out[i]))
+            return CMvector(return_list)
+        elif isinstance(other, CMGobject):
+            assert other.grad.shape[0] == self.jac.shape[1]
+            val_out = self.val + other.val
+            jac_out = np.add(self.jac, other.grad)
+            return_list = []
+            for i, val in enumerate(val_out):
+                return_list.append(CMGobject(val, jac_out[i]))
+            return CMvector(return_list)
+        else:
+            print("get it together mate")
+            raise ValueError
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __sub__(self, other):
+        if isinstance(other, CMvector):
+            assert other.val.shape[0] == self.val.shape[0]
+            assert other.jac.shape[1] == self.jac.shape[1]
+            val_out = self.val - other.val
+            jac_out = self.jac - other.jac
+            return_list = []
+            for i, val in enumerate(val_out):
+                return_list.append(CMGobject(val, jac_out[i]))
+            return CMvector(return_list)
+        elif isinstance(other, CMGobject):
+            assert other.grad.shape[0] == self.jac.shape[1]
+            val_out = self.val + other.val
+            jac_out = np.add(self.jac, -1*other.grad)
+            return_list = []
+            for i, val in enumerate(val_out):
+                return_list.append(CMGobject(val, jac_out[i]))
+            return CMvector(return_list)
+        else:
+            print("get it together mate")
+            raise ValueError
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
+
+    def __repr__(self):
+        return f'CMvector(val = {self.val}, \n jacobian = {self.jac})'
