@@ -104,25 +104,30 @@ class CMGobject():
 
 
 class CMvector():
-    """Creates a forward automatic differentiation class:
-        CMGobject(val, grad=np.array([1.0]))
+    """Creates a forward automatic differentiation class for vector valued functions:
+        CMGobject(f_list)
 
     INPUTS
     ======
-    val : the value of the object
-    grad : the gradient of the object, default seed = np.array([1.0])
+    f_list : a list of CMGradobjects that have attributes of self.val and self.grad
 
     RETURNS
     =======
-    CMGobject for forward automatic differentiation
+    CMvector : a vector valued function for forward automatic differentiation
 
     EXAMPLES
     ========
-    >>> x = CMGobject(4, np.array([2]))
-    >>> x.val
-    4
-    >>> x.grad
-    [2]
+    >>> F_list = [2*x3 + CMfunc.cos(x1 - 2*x2), 3*x4 - x3, x2**x4, 1/(x3 - x4)  ]
+    >>>     (where x1 thru x4 are of class CMGradobject)
+    >>> F = CMvector(F_list)
+    >>> F.val
+    array([ 5.0100075 , 9. , 16. , -1. ])
+    
+    >>> F.jac
+    array([[ 0.14112001, -0.28224002,  2.        ,  0.        ],
+           [ 0.        ,  0.        , -1.        ,  3.        ],
+           [ 0.        , 32.        ,  0.        , 11.09035489],
+           [-0.        , -0.        , -1.        ,  1.        ]])
     """
     def __init__(self, f_list):
         self.val = np.array([f_list[0].val])
