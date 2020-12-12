@@ -114,7 +114,6 @@ class CMvector():
     RETURNS
     =======
     CMvector : a vector valued function for forward automatic differentiation
-    which has attributes of self.val and self.jac (jacobian)
 
     EXAMPLES
     ========
@@ -123,7 +122,7 @@ class CMvector():
     >>> F = CMvector(F_list)
     >>> F.val
     array([ 5.0100075 , 9. , 16. , -1. ])
-    
+
     >>> F.jac
     array([[ 0.14112001, -0.28224002,  2.        ,  0.        ],
            [ 0.        ,  0.        , -1.        ,  3.        ],
@@ -155,8 +154,8 @@ class CMvector():
                 return_list.append(CMGobject(val, jac_out[i]))
             return CMvector(return_list)
         else:
-            #print("get it together mate")
-            raise ValueError('Must be added with CMGobject or CMvector')
+            print("get it together mate")
+            raise ValueError
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -180,8 +179,8 @@ class CMvector():
                 return_list.append(CMGobject(val, jac_out[i]))
             return CMvector(return_list)
         else:
-            #print("get it together mate")
-            raise ValueError('Must be subtracted with CMGobject or CMvector')
+            print("get it together mate")
+            raise ValueError
 
     def __rsub__(self, other):
         return self.__sub__(other)

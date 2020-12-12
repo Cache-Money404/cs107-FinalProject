@@ -39,7 +39,7 @@ def Interface():
     d = {}
     count_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     while stop == 0:
-        string1 = "Enter Potential Flow Vizualization: \n 1) uniform \n 2) doublet \n 3) sink \n 4) source \n 5) sphere \n 6) vortex \n 7) corner \n 8) tornado \n 9) Whirlpool \n 10) Rankine Half-body \n 11) vortex row \n 12) Rankine oval \n 13) exit \n
+        string1 = "Enter Potential Flow Vizualization: \n 1) uniform \n 2) doublet \n 3) sink \n 4) source \n 5) sphere \n 6) vortex \n 7) corner \n 8) tornado \n 9) Whirlpool \n 10) Rankine Half-body \n 11) vortex row \n 12) Rankine oval \n 13) exit \n"
         input1 = float(input(string1))
         if input1 == 13: #Exit
             stop = 1
