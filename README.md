@@ -3,14 +3,19 @@ Master: [![Build Status](https://travis-ci.com/Cache-Money404/cs107-FinalProject
 
 Master: [![codecov](https://codecov.io/gh/Cache-Money404/cs107-FinalProject/branch/master/graph/badge.svg?token=LEN1NJTXJ6)](https://codecov.io/gh/Cache-Money404/cs107-FinalProject)
 
+## Group Members
+#### Junyi Guo
+#### Matthew Hawes
+#### Jack Scudder
+#### Paul Tembo
+#### Arthur Young
 
-## Junyi Guo
-## Matthew Hawes
-## Jack Scudder
-## Paul Tembo
-## Arthur Young
+## Welcome!
 
-### Broader Impact & Inclusivity
+Please view our [Documentation](https://github.com/Cache-Money404/cs107-FinalProject/tree/master/docs) to get started!
+
+
+### Broader Impact & Inclusivity Statement
 
 Historically, scientists, engineers, and technological developers have not always considered the future impacts of their discoveries and inventions.  While the utility of the cellphone or the fiber optic cable is not disputed, other inventions such as the automobile have caused harmful external impacts that may have been reduced with careful thought during development.  Additionally, unfair or discriminatory practices are often exacerbated by new technologies, increasing the divide between historically privileged and underprivileged groups.  We kept these ideas in mind when designing our package.
 
