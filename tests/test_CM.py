@@ -10,6 +10,7 @@
 
 import pytest
 import sys, os.path
+from io import StringIO
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import matplotlib.pyplot as plt
@@ -19,6 +20,7 @@ from CMAutoDiff.CMGradobject import CMGobject as CMG
 from CMAutoDiff.CMGradobject import CMvector as CMV
 import CMAutoDiff.CMfunc as CMfunc
 import CMAutoDiff.CMflow as CMflow
+import CMAutoDiff.ui as UI
 
 
 ############### TESTS FOR CMGradobject ###############
@@ -130,7 +132,7 @@ def test_difficult_derivative_case():
 #     ## the following is a test case for: sin(tan(x)) + 2^(cos(x)) + sin(x)^tan(x)^exp(x) - (cos(x))^2, seeded at x = 1. Try it in autograd, it works.
     test_func1 = CMfunc.sin(CMfunc.tan(x1)) + 2**(CMfunc.cos(x1)) + CMfunc.sin(x1)**CMfunc.tan(x1)**CMfunc.exp(x1) - CMfunc.cos(x1)**2
     print("test_func1 val, der: {}, {}".format(test_func1.val, test_func1.grad))
-    assert (test_func1.val,test_func1.grad) == ( 2.724678163898656, -1.0139897786023675)
+    assert (test_func1.val,test_func1.grad) == ( 2.7246781638986564, -1.0139897786023675)
     print("Difficult derivative test passed.")
 
 
@@ -262,6 +264,90 @@ def test_CMV_val_err():
     with pytest.raises(ValueError):
         F6 - 5
 
+def test_CMF_cart2pol():
+    polar = CMflow.cart2pol(np.array([[1, 1]]))
+    assert np.array_equal(np.round(polar[0], 8), np.round(np.array([np.sqrt(2), np.pi / 4]), 8))
+
+def test_CMF_cart2pol_zero():
+    polar = CMflow.cart2pol(np.array([[0, 1]]))
+    assert np.array_equal(np.round(polar[0], 8), np.round(np.array([1, np.pi / 2]), 8))
+
+def test_CMF_pol2cart():
+    cart = CMflow.pol2cart(np.array([[np.sqrt(2), np.pi / 4]]))
+    assert np.array_equal(np.round(cart, 8), np.array([[1, 1]]))
+
+def test_CMF_pol2cart_grad():
+    grad = CMflow.pol2cart_grad(np.array([[2, np.pi / 3]]), np.array([[1, 0]]))
+    # assert np.array_equal(np.round(grad, 8), np.round(np.array([2, ]), 8))
+    # assert shape, type
+    assert (grad.shape[0], grad.shape[1]) == (1, 2)
+
+def test_CMF_flow_it():
+    flow = CMflow.Flow_it(np.array([1, 1]))
+    assert isinstance(flow.flow, np.ndarray)
+    assert flow.max_it == 2
+    assert list(iter(flow)) == [1, 1]
+    assert list(iter(flow + np.array([1, 0]))) == [2, 1]
+
+def test_CMF_flow():
+    flow = CMflow.Flow('1', np.array([1, 2]))
+    assert flow._key == '1'
+    assert flow._strength == 1
+    assert isinstance(flow.rule_out_points(np.array([[1, 0]])), np.ndarray)
+
+def test_CMF_uniform():
+    uni = CMflow.uniform('1', np.array([1, 2]))
+    assert isinstance(uni.rule_out_points(np.array([[1, 0]])), np.ndarray)
+    assert isinstance(uni.compute_flow(), CMflow.Flow_it)
+
+## Questions: why at least three inputs in init ##
+def test_CMF_source():
+    src = CMflow.source('1', np.array([1, 2, 3]))
+    assert isinstance(src.rule_out_points(np.array([[1, 0]])), np.ndarray)
+    assert isinstance(src.compute_flow(), CMflow.Flow_it)
+
+def test_CMF_sink():
+    sink = CMflow.sink('1', np.array([1, 2, 3]))
+    assert isinstance(sink, CMflow.sink)
+
+def test_CMF_vortex():
+    vor = CMflow.vortex('1', np.array([1, 2, 3]))
+    assert isinstance(vor.rule_out_points(np.array([[1, 0]])), np.ndarray)
+    assert isinstance(vor.compute_flow(), CMflow.Flow_it)
+
+def test_CMF_doublet():
+    dou = CMflow.doublet('1', np.array([1, 2, 3]))
+    assert isinstance(dou.compute_flow(), CMflow.Flow_it)
+
+def test_CMF_tornado():
+    tor = CMflow.tornado('1', np.array([1, 2, 3, 4]))
+    assert isinstance(tor.compute_flow(), CMflow.Flow_it)
+
+def test_CMF_whirlpool():
+    assert isinstance(CMflow.whirlpool('1', np.array([1, 2, 3, 4])), CMflow.whirlpool)
+
+def test_CMF_identify():
+    assert isinstance(CMflow.identify_flow('source', np.array([1, 2, 3])), CMflow.source)
+
+def test_CMF_generate():
+    gradients_cart, phi = CMflow.generate_cart_gradients([CMG(3, np.array([1,0]))], np.array([[1, 0]]))
+    assert isinstance(gradients_cart, np.ndarray)
+    assert isinstance(phi, np.ndarray)
+
+def test_UI_graphdim(monkeypatch):
+    monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n'))
+    ui_dim = UI.graphDim()
+    assert isinstance(ui_dim, list)
+
+def test_UI_interface(monkeypatch):
+    monkeypatch.setattr('sys.stdin', StringIO('99\n1\n1\n2\n2\n2\n2\n3\n3\n3\n3\n3\n4\n4\n4\n4\n4\n5\n5\n5\n5\n6\n6\n6\n6\n7\n7\n7\n7\n8\n8\n8\n8\n8\n9\n9\n9\n9\n9\n10\n10\n10\n10\n10\n11\n11\n11\n11\n12\n12\n12\n12\n12\n13\n'))
+    interface = UI.Interface()
+    assert isinstance(interface, dict)
+
+## Hard code in main????##
+def test_CMF_main(monkeypatch):
+    monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n13\n2\n2\n'))
+    CMflow.main()
 
 
 def test_all():
@@ -296,7 +382,21 @@ def test_all():
     test_newtons_method()
     print('..all CMfunc tests run successfully!')
 
-
+    test_CMF_cart2pol()
+    test_CMF_cart2pol_zero()
+    test_CMF_pol2cart()
+    test_CMF_pol2cart_grad()
+    test_CMF_flow_it()
+    test_CMF_flow()
+    test_CMF_uniform()
+    test_CMF_source()
+    test_CMF_sink()
+    test_CMF_vortex()
+    test_CMF_doublet()
+    test_CMF_tornado()
+    test_CMF_whirlpool()
+    test_CMF_identify()
+    print('..all CMflow tests run successfully!')
 test_all()
 # if __name__ == "__main__":
 #     print("Here")
