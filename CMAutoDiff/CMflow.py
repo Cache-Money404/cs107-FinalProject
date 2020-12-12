@@ -216,21 +216,21 @@ def main():
     stop = 1
     while stop == 1:
         incr = 25
-        test_x_cartesian = np.linspace(-1, 1, incr)
-        test_y_cartesian = np.linspace(-1, 1, incr)
+        domain = ui.graphDim()
+        test_x_cartesian = np.linspace(domain[0], domain[1], incr)
+        test_y_cartesian = np.linspace(domain[2], domain[3], incr)
         xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
         test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
-        dict_in = {
-            "uniform1": [5.],
+        # dict_in = {
+            # "uniform1": [5.],
             # "doublet1": [1., 0., 0.],
             # "source1": [2., 0.5, 0.5],
             # "sink1": [2., -0.5, -0.5],
             # "vortex1": [3., 0., 0.],
             # "tornado1": [1., 1., 0., 0.]
-        }
-        # dict_in = ui.Interface()
-        print(dict_in)
+        # }
+        dict_in = ui.Interface()
 
         flow_list = []
 
@@ -268,7 +268,7 @@ def main():
         print("\n\nPlots generated. Close window to continue")
 
         plt.show()
-        stop = int(input("start over? \n1) yes \n2) no "))
+        stop = int(input("start over? \n1) yes \n2) no \n"))
 
 
     print("exiting potential flow visualization")
