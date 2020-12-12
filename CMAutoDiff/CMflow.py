@@ -1,9 +1,17 @@
 import numpy as np
+<<<<<<< HEAD
 # from CMAutoDiff.CMGradobject import CMGobject as cmg
 # import CMAutoDiff.CMfunc as cm
 from CMGradobject import CMGobject as cmg
 import CMfunc as cm
 import ui
+=======
+
+from CMAutoDiff.CMGradobject import CMGobject as cmg
+import CMAutoDiff.CMfunc as cm
+
+# import ui
+>>>>>>> f1859ec1a8b344237579a13f674cc36157d60a72
 import matplotlib.pyplot as plt
 
 def cart2pol(cart_vec): # converts position coordinates
