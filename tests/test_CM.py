@@ -1,15 +1,6 @@
-# import pytest
-# import sys, os.path
-# AD_dir = os.path.abspath(os.path.dirname(__file__)) # needed so pytest works correctly
-# sys.path.append(AD_dir) # needed so pytest works correctly
-
-# import numpy as np
-# from function_library import function_library
-# from CMG import CMG
-# from FuncObj import FuncObj
-
 import pytest
 import sys, os.path
+
 from io import StringIO
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -146,14 +137,17 @@ def test_CMfunc_constant():
     assert CMfunc.exp(3) == np.exp(3)
     assert CMfunc.log(74088,42) == np.log(74088)/np.log(42) #using alternative base
 
+
     print('passed constants test')
 
 def test_log_CMfunc():
     x = CMG(2)
+
     f = CMfunc.log(x) # using natural logarithm
     number = 74088
     base = 42
     res = CMfunc.log(number,base) #using alternative base
+
     assert f.val== 0.6931471805599453
     assert np.array_equal(f.grad, np.array([0.5]))
     assert res == 3.0
@@ -378,6 +372,7 @@ def test_all():
     test_arctan()
     test_logistic()
     test_tanh()
+
     test_difficult_derivative_case()
     test_CMfunc_constant()
     test_log_CMfunc()
@@ -405,6 +400,7 @@ def test_all():
 
 
 test_all()
+
 # if __name__ == "__main__":
 #     print("Here")
 #     test_all()
