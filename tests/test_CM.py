@@ -337,7 +337,6 @@ def test_CMF_generate():
     assert isinstance(phi, np.ndarray)
 
 def test_CMF_main(monkeypatch):
-    #monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n13\n2\n2\n'))
     monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n8\n2\n2\n'))
     CMflow.main()
 
