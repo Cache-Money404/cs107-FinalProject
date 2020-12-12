@@ -132,9 +132,6 @@ def test_tanh():
 #     assert (test_func1.val,test_func1.grad) == ( 2.724678163898656, -1.0139897786023675)
 #     print("Difficult derivative test passed.")
 
-def test_object_input_error():
-    with pytest.raises(ValueError):
-        CMG(1, 'fake')
 
 def test_CMfunc_constant():
     assert CMfunc.sin(2) == np.sin(2)
@@ -209,13 +206,13 @@ def test_all():
     print('''    (all basic tests results suppressed except difficult derivative and Newton's method)''')
 
     test_repr_CMG()
+    test_object_input_error_CMG()
     test_eq_CMG()
     test_mul_CMG()
     test_add_sub_operations_CMG()
     test_div_operations_CMG()
     test_pow_operations_CMG()
     test_negation_CMG()
-    test_object_input_error_CMG()
     print('...all CMGradobject tests run successfully!')
     test_sin()
     test_arcsin()
