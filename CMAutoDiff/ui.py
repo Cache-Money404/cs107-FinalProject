@@ -17,80 +17,62 @@ def Interface():
             stop = 1
         else:
             if input1 == 1: #Uniform
-                string2 = "Enter Strength?:"
-                input2 = float(input(string2))
+                input2 = float(input("Enter Strength?:"))
                 count_list[input1] += 1
                 d['uniform'+str(count_list[input1])] = [input2]
-
             elif input1 == 2: # Doublet
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter X Value:"
-                string4  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter X Value:"))
+                float4 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4]
                 count_list[input1] += 1
                 d['doublet'+str(count_list[input1])] = list_it
             elif input1 == 3: # Sink
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Length:"
-                string4  = "Enter X Value:"
-                string5  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter Length:"))
+                float4 = float(input("Enter X Value:"))
+                float5 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4, float5]
                 count_list[input1] += 1
                 d['sink'+str(count_list[input1])] = list_it
             elif input1 == 4: # Source
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Length:"
-                string4  = "Enter X Value:"
-                string5  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter Length:"))
+                float4 = float(input("Enter X Value:"))
+                float5 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4, float5]
                 count_list[input1] += 1
                 d['source'+str(count_list[input1])] = list_it
 
             elif input1 == 5: # Vortex
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter X Value:"
-                string4  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter X Value:"))
+                float4 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4]
                 count_list[input1] += 1
                 d['vortex'+str(count_list[input1])] = list_it
 
             elif input1 == 6: # Tornado
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Vorticity:"
-                string4  = "Enter X Value:"
-                string5  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter Vorticity:"))
+                float4 = float(input("Enter X Value:"))
+                float5 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4, float5]
                 count_list[input1] += 1
                 d['tornado'+str(count_list[input1])] = list_it
 
             elif input1 == 7: # Whirlpool
                 list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Vorticity:"
-                string4  = "Enter X Value:"
-                string5  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
+                float2 = float(input("Enter Strength:"))
+                float3 = float(input("Enter Vorticity:"))
+                float4 = float(input("Enter X Value:"))
+                float5 = float(input("Enter Y Value:"))
+                list_it = [float2, float3, float4, float5]
                 count_list[input1] += 1
                 d['whirlpool'+str(count_list[input1])] = list_it
             else:
