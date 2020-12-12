@@ -197,7 +197,7 @@ def test_CMV_init():
     x2 = CMG(2, np.array([0, 1, 0, 0]))
     x3 = CMG(3, np.array([0, 0, 1, 0]))
     x4 = CMG(4, np.array([0, 0, 0, 1]))
-
+    
     F1_list = [CMfunc.cos(x1 - 2*x2), CMfunc.log(x3) - 3*x4*x3, x2**2, (x1 + x2)/(x3 - x4)  ]
     F1 = CMV(F1_list)
     assert F1.__repr__() == 'CMvector(val = [ -0.9899925  -34.90138771   4.          -3.        ], \n jacobian = [[  0.14112001  -0.28224002   0.           0.        ]\n [  0.           0.         -11.66666667  -9.        ]\n [  0.           4.           0.           0.        ]\n [ -1.          -1.          -3.           3.        ]])'
@@ -209,12 +209,58 @@ def test_CMV_add_sub():
     x3 = CMG(3, np.array([0, 0, 1, 0]))
     x4 = CMG(4, np.array([0, 0, 0, 1]))
 
+    x5 = CMG(1, np.array([1,0]))
+    x6 = CMG(2, np.array([0,1]))
+
+
     F1_list = [CMfunc.cos(x1 - 2*x2), CMfunc.log(x3) - 3*x4*x3, x2**2, (x1 + x2)/(x3 - x4)  ]
     F2_list = [2*x3 + CMfunc.cos(x1 - 2*x2), 3*x4 - x3, x2**x4, 1/(x3 - x4)  ]
     F1 = CMV(F1_list)
     F2 = CMV(F2_list)
+    F3 = F1 + F2
+    F4 = F2 + F1
+    F5 = F2 - F1 - F1
+    F6 = CMV([x5*x6, x6])
+    F7 = F6 + x5
+    F8 = F6 - x6
 
+    assert np.array_equal(F3.val, np.array([ 4.02001500679911, -25.901387711331893,  20.,  -4.]))
+    assert np.array_equal(F3.jac, np.array([[  0.2822400161197344,  -0.5644800322394689,   2.        ,   0.        ],
+       [  0.        ,   0.        , -12.666666666666666,  -6.        ],
+       [  0.        ,  36.        ,   0.        ,  11.090354888959125],
+       [ -1.        ,  -1.        ,  -4.        ,   4.        ]]))
+    assert np.array_equal(F4.val, np.array([ 4.02001500679911, -25.901387711331893,  20.,  -4.]))
+    assert np.array_equal(F4.jac, np.array([[  0.2822400161197344,  -0.5644800322394689,   2.        ,   0.        ],
+       [  0.        ,   0.        , -12.666666666666666,  -6.        ],
+       [  0.        ,  36.        ,   0.        ,  11.090354888959125],
+       [ -1.        ,  -1.        ,  -4.        ,   4.        ]]))
+    assert np.array_equal(F5.val, np.array([6.989992496600445, 78.80277542266379, 8., 5. ]))
+    assert np.array_equal(F5.jac, np.array([[-0.1411200080598672,  0.2822400161197344,  2.        ,  0.        ],
+       [ 0.        ,  0.        , 22.333333333333332, 21.        ],
+       [ 0.        , 24.        ,  0.        , 11.090354888959125],
+       [ 2.        ,  2.        ,  5.        , -5.        ]]))
+    assert np.array_equal(F7.val, np.array([3.,3.]))
+    assert np.array_equal(F7.jac, np.array([[3., 1.],
+       [1., 1.]]))
 
+    assert np.array_equal(F8.val, np.array([4.,4.]))
+    assert np.array_equal(F8.jac, np.array([[2., 0.],
+       [0., 0.]]))
+
+def test_CMV_val_err():
+    x5 = CMG(1, np.array([1,0]))
+    x6 = CMG(2, np.array([0,1]))
+    F6 = CMV([x5*x6, x6])
+    with pytest.raises(ValueError):
+        x5 + F6
+    with pytest.raises(ValueError):
+        F6 + 5
+    with pytest.raises(ValueError):
+        5 + F6
+    with pytest.raises(ValueError):
+        5 - F6
+    with pytest.raises(ValueError):
+        F6 - 5
 
 
 
@@ -233,6 +279,8 @@ def test_all():
     print('...all CMGradobject tests run successfully!')
 
     test_CMV_init()
+    test_CMV_add_sub()
+    test_CMV_val_err()
     print('..all CMvector tests run successfully!')
 
     test_sin()
