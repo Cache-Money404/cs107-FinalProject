@@ -1,11 +1,11 @@
 import numpy as np
-# from CMAutoDiff.CMGradobject import CMGobject as cmg
-# import CMAutoDiff.CMfunc as cm
-# import CMAutoDiff.ui as ui
+from CMAutoDiff.CMGradobject import CMGobject as cmg
+import CMAutoDiff.CMfunc as cm
+import CMAutoDiff.ui as ui
 
-from CMGradobject import CMGobject as cmg
-import CMfunc as cm
-import ui as ui
+# from CMGradobject import CMGobject as cmg
+# import CMfunc as cm
+# import ui as ui
 
 
 import matplotlib.pyplot as plt
@@ -275,8 +275,6 @@ def main():
 
         print("Done. Generating plots:")
         cartesian_gradients, potential = generate_cart_gradients(F, test_points_cartesian)
-
-
 
         max_grad = np.max(np.linalg.norm(cartesian_gradients, axis=1))
 
