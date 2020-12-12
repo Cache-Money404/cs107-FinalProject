@@ -141,7 +141,7 @@ class vortex(Flow):
         self.CMGs = []
         ##### Changed Here because I did not find self._points ########
         self._points = np.array([])
-        
+
 
     def rule_out_points(self, cart_coords: np.array):
         return_points = np.array([0, 0])
@@ -185,7 +185,7 @@ class tornado(source):
         self.CMGs = []
         ##### Changed Here because I did not find self._points ########
         self._points = np.array([])
-        
+
     def compute_flow(self): ## assumes, for now, unitary b
         for pos in self._points:
             r = cmg(pos[0], np.array([1., 0.]))
@@ -214,7 +214,7 @@ def identify_flow(key_in, inputs):
         "sink": sink,
         "vortex": vortex,
         "doublet": doublet,
-        "tornado": tornado
+        "tornado": tornado,
         "whirlpool": whirlpool
     }
     for key in library:
@@ -248,7 +248,7 @@ def main():
             "source1": [2., 0.5, 0.5],
             "sink1": [2., -0.5, -0.5],
             "vortex1": [3., 0., 0.],
-            "tornado1": [1., 1., 0., 0.]
+            "tornado1": [1., 1., 0., 0.],
             "whirlpool1": [1., 1., 0., 0.]
         }
         dict_in = ui.Interface()
