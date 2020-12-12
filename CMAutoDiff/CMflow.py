@@ -59,6 +59,8 @@ class Flow():
         self._pos = np.array([0, 0])
         self._key = key
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
     def rule_out_points(self, cart_coords: np.array):
         return cart_coords
     def compute_points(self, cart_coords: np.array):
@@ -96,6 +98,9 @@ class source(Flow):
         self._key = key
         self.b = 1  ## for now
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
+
     def rule_out_points(self, cart_coords: np.array):
         return_points = np.array([0, 0])
         for pos in cart_coords:
@@ -134,6 +139,9 @@ class vortex(Flow):
         self._pos = np.array([inputs[1], inputs[2]])
         self._key = key
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
+        
 
     def rule_out_points(self, cart_coords: np.array):
         return_points = np.array([0, 0])
@@ -175,6 +183,9 @@ class tornado(source):
         self._pos = np.array([inputs[2], inputs[3]])
         self._key = key
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
+        
     def compute_flow(self): ## assumes, for now, unitary b
         for pos in self._points:
             r = cmg(pos[0], np.array([1., 0.]))
