@@ -132,7 +132,7 @@ def test_difficult_derivative_case():
 #     ## the following is a test case for: sin(tan(x)) + 2^(cos(x)) + sin(x)^tan(x)^exp(x) - (cos(x))^2, seeded at x = 1. Try it in autograd, it works.
     test_func1 = CMfunc.sin(CMfunc.tan(x1)) + 2**(CMfunc.cos(x1)) + CMfunc.sin(x1)**CMfunc.tan(x1)**CMfunc.exp(x1) - CMfunc.cos(x1)**2
     print("test_func1 val, der: {}, {}".format(test_func1.val, test_func1.grad))
-    assert (test_func1.val,test_func1.grad) == ( 2.7246781638986564, -1.0139897786023675)
+    assert (np.round(test_func1.val, 8),np.round(test_func1.grad, 8)) == ( np.round(2.7246781638986564, 8), np.round(-1.0139897786023675, 8))
     print("Difficult derivative test passed.")
 
 
