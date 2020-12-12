@@ -222,15 +222,16 @@ def main():
         xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
         test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
-        # dict_in = {
-            # "uniform1": [5.],
-            # "doublet1": [1., 0., 0.],
-            # "source1": [2., 0.5, 0.5],
-            # "sink1": [2., -0.5, -0.5],
-            # "vortex1": [3., 0., 0.],
-            # "tornado1": [1., 1., 0., 0.]
-        # }
-        dict_in = ui.Interface()
+        dict_in = {
+            "uniform1": [5.],
+            "doublet1": [1., 0., 0.],
+            "source1": [2., 0.5, 0.5],
+            "sink1": [2., -0.5, -0.5],
+            "vortex1": [3., 0., 0.],
+            "tornado1": [1., 1., 0., 0.]
+        }
+        # dict_in = ui.Interface()
+        print(dict_in)
 
         flow_list = []
 
@@ -264,7 +265,9 @@ def main():
 
         plotN = -1
 
-        ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, np.sqrt(((plotV-plotN)/2)*2 + ((plotU-plotN)/2)*2), angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
+        color = np.sqrt(((plotV-plotN)/2) + ((plotU-plotN)/2))
+
+        ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, color, angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
         print("\n\nPlots generated. Close window to continue")
 
         plt.show()
