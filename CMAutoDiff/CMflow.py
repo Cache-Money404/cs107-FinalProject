@@ -254,7 +254,6 @@ def main():
         test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
         dict_in = ui.Interface()
-        print(dict_in)
 
         flow_list = []
 
@@ -303,7 +302,10 @@ def main():
                 y = float(input(string3))
                 test_points_cartesian = np.array([[x, y]])
 
+                flow_list = []
+
                 for i, key in enumerate(dict_in):
+                    flow_list.append(identify_flow(key, dict_in[key]))
                     test_points_cartesian = flow_list[i].rule_out_points(test_points_cartesian)
                     try:
                         check = test_points_cartesian.shape[1]
@@ -313,9 +315,18 @@ def main():
                         y = float(input(string3))
                         test_points_cartesian = np.array([[x, y]])
 
-                pos_vec_pol = cart2pol(test_points_cartesian)
+                pos_vec_pol = np.zeros(np.shape(test_points_cartesian))
+                r = np.linalg.norm(test_points_cartesian[0])
+                if test_points_cartesian[0][0] == 0:
+                    theta = np.pi/2 + np.pi*(0**( 1 + np.sign(test_points_cartesian[0][1])))
+                else:
+                    theta = np.arctan(test_points_cartesian[0][1]/test_points_cartesian[0][0]) + np.pi*(0**( 1 + np.sign(test_points_cartesian[0][0])))
+
+                pos_vec_pol[0][0] = r
+                pos_vec_pol[0][1] = theta
 
                 print("computing flow gradient for the following potential flow solutions:")
+                flow = flow_list[0]
                 flow.compute_points(test_points_cartesian)
                 F = flow.compute_flow()
                 for flow in flow_list[1:]:
@@ -323,9 +334,10 @@ def main():
                     flow.compute_points(test_points_cartesian)
                     F += flow.compute_flow()
 
+                vec_check = F.flow[0].grad
                 print("Done. At (x, y) = {}, the following has been calculated:".format(test_points_cartesian[0]))
-                grad1 = F.flow[0].grad[0]*np.cos(pos_vec_pol[0][1]) + F.flow[0].grad[1]*np.cos((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
-                grad2 = F.flow[0].grad[0]*np.sin(pos_vec_pol[0][1]) + F.flow[0].grad[1]*np.sin((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
+                grad1 = vec_check[0]*np.cos(pos_vec_pol[0][1]) + vec_check[1]*np.cos((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
+                grad2 = vec_check[0]*np.sin(pos_vec_pol[0][1]) + vec_check[1]*np.sin((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
                 print("equivalent polar coordinate: (r, theta) = ", pos_vec_pol[0])
                 print("flow potential: ", F.flow[0].val)
                 print("polar gradient value: (dr, dtheta) = ", F.flow[0].grad)
