@@ -13,6 +13,10 @@ Master: [![codecov](https://codecov.io/gh/Cache-Money404/cs107-FinalProject/bran
 ## Welcome!
 
 Please view our [Documentation](https://github.com/Cache-Money404/cs107-FinalProject/tree/master/docs) to get started!
+Our package can be installed by copying and pasting the line below into your terminal:
+
+`pip install -i https://test.pypi.org/project/Cache-Money404/0.1.1/`
+
 
 
 ### Broader Impact & Inclusivity Statement
