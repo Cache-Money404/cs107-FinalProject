@@ -304,12 +304,12 @@ def test_CMF_uniform():
 
 ## Questions: why at least three inputs in init ##
 def test_CMF_source():
-    src = CMflow.source('1', np.array([1, 2, 3]))
+    src = CMflow.source('1', np.array([1, 2, 3, 4]))
     assert isinstance(src.rule_out_points(np.array([[1, 0]])), np.ndarray)
     assert isinstance(src.compute_flow(), CMflow.Flow_it)
 
 def test_CMF_sink():
-    sink = CMflow.sink('1', np.array([1, 2, 3]))
+    sink = CMflow.sink('1', np.array([1, 2, 3, 4]))
     assert isinstance(sink, CMflow.sink)
 
 def test_CMF_vortex():
@@ -329,7 +329,7 @@ def test_CMF_whirlpool():
     assert isinstance(CMflow.whirlpool('1', np.array([1, 2, 3, 4])), CMflow.whirlpool)
 
 def test_CMF_identify():
-    assert isinstance(CMflow.identify_flow('source', np.array([1, 2, 3])), CMflow.source)
+    assert isinstance(CMflow.identify_flow('source', np.array([1, 2, 3, 4])), CMflow.source)
 
 def test_CMF_generate():
     gradients_cart, phi = CMflow.generate_cart_gradients([CMG(3, np.array([1,0]))], np.array([[1, 0]]))
