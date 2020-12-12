@@ -3,7 +3,7 @@ import numpy as np
 # import CMAutoDiff.CMfunc as cm
 from CMGradobject import CMGobject as cmg
 import CMfunc as cm
-# import ui
+import ui
 import matplotlib.pyplot as plt
 
 def cart2pol(cart_vec): # converts position coordinates
@@ -211,16 +211,17 @@ def main():
     xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
     test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
-    # ui.Interface()
+    dict_in = ui.Interface()
 
-    dict_in = {
-        "uniform1": [5.],
-        "doublet1": [1., 0., 0.],
-        "source1": [2., 0.5, 0.5],
-        "sink1": [2., -0.5, -0.5],
-        "vortex1": [3., 0., 0.],
-        "tornado1": [1., 1., 0., 0.]
-    }
+    # dict_in = {
+    #     "uniform1": [5.],
+    #     "doublet1": [1., 0., 0.],
+    #     "source1": [2., 0.5, 0.5],
+    #     "sink1": [2., -0.5, -0.5],
+    #     "vortex1": [3., 0., 0.],
+    #     "tornado1": [1., 1., 0., 0.]
+    # }
+    
     flow_list = []
 
     for i, key in enumerate(dict_in):
