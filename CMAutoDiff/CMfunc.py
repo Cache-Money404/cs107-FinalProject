@@ -88,10 +88,10 @@ def log(x, base = np.e): # handles ln(x) == log(x) because default base = np.e
 # sinh, cosh, tanh, logistic, sqrt
 
 def sinh(x): # in terms of exp(x), so exp(x) handles val and der calculations
-    return (exp(x) - exp(-x))/2
+    return (exp(x) - exp(-x))/2.
 
 def cosh(x): # in terms of exp(x), so exp(x) handles val and der calculations
-    return (exp(x) + exp(-x))/2
+    return (exp(x) + exp(-x))/2.
 
 def tanh(x): # in terms of exp(x), so exp(x) handles val and der calculations
     return sinh(x)/cosh(x)
