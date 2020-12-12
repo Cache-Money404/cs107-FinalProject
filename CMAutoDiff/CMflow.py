@@ -152,6 +152,34 @@ class doublet(source):
     def __repr__(self):
         return repr(self._key + ': a doublet of strength {} at (x, y) = {}'.format(self._strength, self._pos ) )
 
+class tornado(source):
+    def __init__(self, key, inputs):
+        self._strength = inputs[0]
+        self._vorticity = inputs[1]
+        self._pos = np.array([inputs[2], inputs[3]])
+        self._key = key
+        self.CMGs = []
+    def compute_flow(self): ## assumes, for now, unitary b
+        for pos in self._points:
+            r = cmg(pos[0], np.array([1., 0.]))
+            theta = cmg(pos[1], np.array([0., 1.]))
+            self.CMGs.append(self._strength*cm.log(r) + self._vorticity*theta)
+        return Flow_it(self.CMGs)
+
+    def __repr__(self):
+        return repr(self._key + ': a tornado of strength {}, vorticity {} at (x, y) = {}'.format(self._strength, self._vorticity, self._pos ) )
+
+class whirlpool(source):
+    def __init__(self, key, inputs):
+        self._strength = -inputs[0]
+        self._vorticity = inputs[1]
+        self._pos = np.array([inputs[2], inputs[3]])
+        self._key = key
+        self.CMGs = []
+
+    def __repr__(self):
+        return repr(self._key + ': a whirlpool of strength {}, vorticity {} at (x, y) = {}'.format(self._strength, self._vorticity, self._pos ) )
+
 def identify_flow(key_in, inputs):
     library = {
         "uniform": uniform,
@@ -159,6 +187,8 @@ def identify_flow(key_in, inputs):
         "sink": sink,
         "vortex": vortex,
         "doublet": doublet
+        "tornado": tornado
+
     }
     for key in library:
         if key in key_in:
@@ -184,9 +214,10 @@ def main():
     dict_in = {
         "uniform1": [1.],
         "doublet1": [1., 0., 0.]
-        # "source1": [2., 0.5, 0.5],
-        # "sink1": [2., -0.5, -0.5],
-        # "vortex1": [3., 0., 0.],
+        "source1": [2., 0.5, 0.5],
+        "sink1": [2., -0.5, -0.5],
+        "vortex1": [3., 0., 0.],
+        "tornado1": [1., 1., 0., 0.]
     }
     flow_list = []
 
