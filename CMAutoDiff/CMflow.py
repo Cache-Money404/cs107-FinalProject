@@ -223,11 +223,11 @@ def main():
 
         dict_in = {
             "uniform1": [5.],
-            # "doublet1": [1., 0., 0.],
-            # "source1": [2., 0.5, 0.5],
-            # "sink1": [2., -0.5, -0.5],
-            # "vortex1": [3., 0., 0.],
-            # "tornado1": [1., 1., 0., 0.]
+            "doublet1": [1., 0., 0.],
+            "source1": [2., 0.5, 0.5],
+            "sink1": [2., -0.5, -0.5],
+            "vortex1": [3., 0., 0.],
+            "tornado1": [1., 1., 0., 0.]
         }
         # dict_in = ui.Interface()
         print(dict_in)
@@ -263,8 +263,10 @@ def main():
         plotV = cartesian_gradients.T[1]/max_grad
 
         plotN = -1
+        
+        color = np.sqrt(((plotV-plotN)/2) + ((plotU-plotN)/2))
 
-        ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, np.sqrt(((plotV-plotN)/2)*2 + ((plotU-plotN)/2)*2), angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
+        ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, color, angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
         print("\n\nPlots generated. Close window to continue")
 
         plt.show()
