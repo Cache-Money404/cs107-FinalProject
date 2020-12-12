@@ -1,5 +1,6 @@
 import numpy as np
-from CMAutoDiff.CMGradobject import CMGobject
+# from CMAutoDiff.CMGradobject import CMGobject
+from CMGradobject import CMGobject
 
 # trig functions
 

@@ -1,7 +1,12 @@
 import numpy as np
-from CMAutoDiff.CMGradobject import CMGobject as cmg
-import CMAutoDiff.CMfunc as cm
-import CMAutoDiff.ui as ui
+# from CMAutoDiff.CMGradobject import CMGobject as cmg
+# import CMAutoDiff.CMfunc as cm
+# import CMAutoDiff.ui as ui
+
+from CMGradobject import CMGobject as cmg
+import CMfunc as cm
+import ui as ui
+
 
 import matplotlib.pyplot as plt
 
@@ -94,9 +99,9 @@ class uniform(Flow):
 class source(Flow):
     def __init__(self, key, inputs):
         self._strength = inputs[0]
-        self._pos = np.array([inputs[1], inputs[2]])
+        self.b = inputs[1]
+        self._pos = np.array([inputs[2], inputs[3]])
         self._key = key
-        self.b = 1  ## for now
         self.CMGs = []
         ##### Changed Here because I did not find self._points ########
         self._points = np.array([])
@@ -126,10 +131,12 @@ class source(Flow):
 class sink(source):
     def __init__(self, key, inputs):
         self._strength = -inputs[0]
-        self._pos = np.array([inputs[1], inputs[2]])
+        self.b = inputs[1]
+        self._pos = np.array([inputs[2], inputs[3]])
         self._key = key
-        self.b = 1  ## for now
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
     def __repr__(self):
         return repr(self._key + ': a sink of strength {} at (x, y) = {}'.format(self._strength, self._pos ) )
 
@@ -165,6 +172,13 @@ class vortex(Flow):
         return repr(self._key + ': a vortex of strength {} at (x, y) = {}'.format(self._strength, self._pos ) )
 
 class doublet(source):
+    def __init__(self, key, inputs):
+        self._strength = inputs[0]
+        self._pos = np.array([inputs[1], inputs[2]])
+        self._key = key
+        self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
     def compute_flow(self): ## assumes, for now, unitary b
         for pos in self._points:
             r = cmg(pos[0], np.array([1., 0.]))
@@ -196,13 +210,15 @@ class tornado(source):
     def __repr__(self):
         return repr(self._key + ': a tornado of strength {}, vorticity {} at (x, y) = {}'.format(self._strength, self._vorticity, self._pos ) )
 
-class whirlpool(source):
+class whirlpool(tornado):
     def __init__(self, key, inputs):
         self._strength = -inputs[0]
         self._vorticity = inputs[1]
         self._pos = np.array([inputs[2], inputs[3]])
         self._key = key
         self.CMGs = []
+        ##### Changed Here because I did not find self._points ########
+        self._points = np.array([])
 
     def __repr__(self):
         return repr(self._key + ': a whirlpool of strength {}, vorticity {} at (x, y) = {}'.format(self._strength, self._vorticity, self._pos ) )
@@ -235,22 +251,12 @@ def main():
     stop = 1
     while stop == 1:
         incr = 50
-        domain = [-1, 1, -1, 1]
         domain = ui.graphDim()
         test_x_cartesian = np.linspace(domain[0], domain[1], incr)
         test_y_cartesian = np.linspace(domain[2], domain[3], incr)
         xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
         test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
-        dict_in = {
-            "uniform1": [5.],
-            "doublet1": [1., 0., 0.],
-            "source1": [2., 0.5, 0.5],
-            "sink1": [2., -0.5, -0.5],
-            "vortex1": [3., 0., 0.],
-            "tornado1": [1., 1., 0., 0.],
-            "whirlpool1": [1., 1., 0., 0.]
-        }
         dict_in = ui.Interface()
         print(dict_in)
 
