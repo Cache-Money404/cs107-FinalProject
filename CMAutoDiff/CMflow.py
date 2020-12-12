@@ -186,7 +186,7 @@ def identify_flow(key_in, inputs):
         "source": source,
         "sink": sink,
         "vortex": vortex,
-        "doublet": doublet
+        "doublet": doublet,
         "tornado": tornado
 
     }
@@ -213,7 +213,7 @@ def main():
 
     dict_in = {
         "uniform1": [1.],
-        "doublet1": [1., 0., 0.]
+        "doublet1": [1., 0., 0.],
         "source1": [2., 0.5, 0.5],
         "sink1": [2., -0.5, -0.5],
         "vortex1": [3., 0., 0.],
@@ -241,11 +241,8 @@ def main():
 
     max_grad = np.max(np.linalg.norm(cartesian_gradients, axis=1))
     fig, (ax_l, ax_r) = plt.subplots(1,2, figsize=(16, 8))
-    plotU = cartesian_gradients.T[0]/max_grad
-    plotV = cartesian_gradients.T[1]/max_grad
-    plotN = -1
-    ax_l.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, np.sqrt(((plotV-plotN)/2)*2 + ((plotU-plotN)/2)*2), angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
-    ax_r.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='uv', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
+    ax_l.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='xy', scale=2.5, scale_units='width', minshaft=1, minlength=0.1, width=0.01)
+    ax_r.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='uv', scale=2.5, scale_units='width', minshaft=1, minlength=1, width=0.01)
     print("\n\nPlots generated. Close window to continue")
     plt.show()
 
