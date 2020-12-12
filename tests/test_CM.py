@@ -119,7 +119,7 @@ def test_tanh():
     x = CMG(2., np.array([1.,0.], dtype=np.double ))
     f = CMfunc.tanh(x)
     assert f.val == 0.964027580075817
-    assert np.array_equal(f.grad, np.array([0.07065082485316432, 0.]))
+    assert np.array_equal(np.round(f.grad, 12), np.round(np.array([0.07065082485316432, 0.]), 12) ) ## relaxing to floating point precision
     # (np.tanh(2), np.cosh(2)**(-2))
     #print('passed hyperbolic tangent (and therefore sinh and cosh)')
 
@@ -197,7 +197,7 @@ def test_CMV_init():
     x2 = CMG(2, np.array([0, 1, 0, 0]))
     x3 = CMG(3, np.array([0, 0, 1, 0]))
     x4 = CMG(4, np.array([0, 0, 0, 1]))
-    
+
     F1_list = [CMfunc.cos(x1 - 2*x2), CMfunc.log(x3) - 3*x4*x3, x2**2, (x1 + x2)/(x3 - x4)  ]
     F1 = CMV(F1_list)
     assert F1.__repr__() == 'CMvector(val = [ -0.9899925  -34.90138771   4.          -3.        ], \n jacobian = [[  0.14112001  -0.28224002   0.           0.        ]\n [  0.           0.         -11.66666667  -9.        ]\n [  0.           4.           0.           0.        ]\n [ -1.          -1.          -3.           3.        ]])'
@@ -208,7 +208,7 @@ def test_CMV_add_sub():
     x2 = CMG(2, np.array([0, 1, 0, 0]))
     x3 = CMG(3, np.array([0, 0, 1, 0]))
     x4 = CMG(4, np.array([0, 0, 0, 1]))
-    
+
     F1_list = [CMfunc.cos(x1 - 2*x2), CMfunc.log(x3) - 3*x4*x3, x2**2, (x1 + x2)/(x3 - x4)  ]
     F2_list = [2*x3 + CMfunc.cos(x1 - 2*x2), 3*x4 - x3, x2**x4, 1/(x3 - x4)  ]
     F1 = CMV(F1_list)
@@ -231,10 +231,10 @@ def test_all():
     test_pow_operations_CMG()
     test_negation_CMG()
     print('...all CMGradobject tests run successfully!')
-    
+
     test_CMV_init()
     print('..all CMvector tests run successfully!')
-    
+
     test_sin()
     test_arcsin()
     test_arccos()
@@ -250,7 +250,6 @@ def test_all():
 
 
 test_all()
-
 # if __name__ == "__main__":
 #     print("Here")
 #     test_all()
