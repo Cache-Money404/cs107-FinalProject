@@ -119,7 +119,7 @@ def test_tanh():
     x = CMG(2., np.array([1.,0.], dtype=np.double ))
     f = CMfunc.tanh(x)
     assert f.val == 0.964027580075817
-    assert np.array_equal(f.grad, np.array([0.0706508248531643, 0.]))
+    assert np.array_equal(f.grad, np.array([0.07065082485316432, 0.]))
     # (np.tanh(2), np.cosh(2)**(-2))
     #print('passed hyperbolic tangent (and therefore sinh and cosh)')
 
