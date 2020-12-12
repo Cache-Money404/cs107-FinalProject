@@ -264,6 +264,8 @@ def test_CMV_val_err():
     with pytest.raises(ValueError):
         F6 - 5
 
+############### TESTS FOR CMflow ###############
+
 def test_CMF_cart2pol():
     polar = CMflow.cart2pol(np.array([[1, 1]]))
     assert np.array_equal(np.round(polar[0], 8), np.round(np.array([np.sqrt(2), np.pi / 4]), 8))
@@ -334,20 +336,22 @@ def test_CMF_generate():
     assert isinstance(gradients_cart, np.ndarray)
     assert isinstance(phi, np.ndarray)
 
+def test_CMF_main(monkeypatch):
+    #monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n13\n2\n2\n'))
+    monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n8\n2\n2\n'))
+    CMflow.main()
+
+############### TESTS FOR UI ###############
+
 def test_UI_graphdim(monkeypatch):
     monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n'))
     ui_dim = UI.graphDim()
     assert isinstance(ui_dim, list)
 
 def test_UI_interface(monkeypatch):
-    monkeypatch.setattr('sys.stdin', StringIO('99\n1\n1\n2\n2\n2\n2\n3\n3\n3\n3\n3\n4\n4\n4\n4\n4\n5\n5\n5\n5\n6\n6\n6\n6\n7\n7\n7\n7\n8\n8\n8\n8\n8\n9\n9\n9\n9\n9\n10\n10\n10\n10\n10\n11\n11\n11\n11\n12\n12\n12\n12\n12\n13\n'))
+    monkeypatch.setattr('sys.stdin', StringIO('9\n1\n1\n2\n2\n2\n2\n3\n3\n3\n3\n3\n4\n4\n4\n4\n4\n5\n5\n5\n5\n6\n6\n6\n6\n6\n7\n7\n7\n7\n7\n8\n'))
     interface = UI.Interface()
     assert isinstance(interface, dict)
-
-## Hard code in main????##
-def test_CMF_main(monkeypatch):
-    monkeypatch.setattr('sys.stdin', StringIO('-1\n1\n-1\n1\n1\n1\n13\n2\n2\n'))
-    CMflow.main()
 
 
 def test_all():
@@ -396,7 +400,11 @@ def test_all():
     test_CMF_tornado()
     test_CMF_whirlpool()
     test_CMF_identify()
+    test_CMF_generate()
     print('..all CMflow tests run successfully!')
+
+
+
 test_all()
 # if __name__ == "__main__":
 #     print("Here")
