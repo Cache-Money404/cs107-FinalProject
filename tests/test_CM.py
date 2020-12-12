@@ -217,6 +217,7 @@ def test_CMV_add_sub():
     F5 = F2 - F1 - F1
     F6 = CMV([x5*x6, x6])
     F7 = F6 + x5
+    F8 = F6 - x6
     
     assert np.array_equal(F3.val, np.array([ 4.02001500679911, -25.901387711331893,  20.,  -4.]))
     assert np.array_equal(F3.jac, np.array([[  0.2822400161197344,  -0.5644800322394689,   2.        ,   0.        ],
@@ -237,12 +238,25 @@ def test_CMV_add_sub():
     assert np.array_equal(F7.jac, np.array([[3., 1.],
        [1., 1.]]))
     
+    assert np.array_equal(F8.val, np.array([4.,4.]))
+    assert np.array_equal(F8.jac, np.array([[2., 0.],
+       [0., 0.]]))
+    
 def test_CMV_val_err():
     x5 = CMG(1, np.array([1,0]))
     x6 = CMG(2, np.array([0,1]))
     F6 = CMV([x5*x6, x6])
     with pytest.raises(ValueError):
         x5 + F6
+    with pytest.raises(ValueError):
+        F6 + 5
+    with pytest.raises(ValueError):
+        5 + F6
+    with pytest.raises(ValueError):
+        5 - F6
+    with pytest.raises(ValueError):
+        F6 - 5
+        
 
 def test_all():
     print('Running tests...')
