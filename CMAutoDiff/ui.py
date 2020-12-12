@@ -1,8 +1,8 @@
 def graphDim():
     x_low = float(input("enter lower bound of x domain (example: -1)\n"))
     x_high = float(input("enter upper bound of x domain (example: 1)\n"))
-    y_low = float(input("enter lower bound of y domain (example: -2)\n"))
-    y_high = float(input("enter upper bound of y domain (example: 2)\n"))
+    y_low = float(input("enter lower bound of y domain (example: -1)\n"))
+    y_high = float(input("enter upper bound of y domain (example: 1)\n"))
 
     return [x_low, x_high, y_low, y_high]
 

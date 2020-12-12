@@ -76,7 +76,10 @@ class uniform(Flow):
         for pos in cart_coords:
             if not (pos[0] == self._pos[0] and pos[1] == self._pos[1]):
                 return_points = np.vstack((return_points, [pos]))
-        return return_points[1:]
+        try:
+            return return_points[1:]
+        except ValueError:
+            print("Somehow, you have only given points that lie in singularities. Please reconsider your decisions.")
     def compute_flow(self):
         for pos in self._points:
             r = cmg(pos[0], np.array([1., 0.]))
@@ -99,7 +102,10 @@ class source(Flow):
         for pos in cart_coords:
             if not (pos[0] == self._pos[0] and pos[1] == self._pos[1]):
                 return_points = np.vstack((return_points, [pos]))
-        return return_points[1:]
+        try:
+            return return_points[1:]
+        except ValueError:
+            print("Somehow, you have only given points that lie in singularities. Please reconsider your decisions.")
 
     def compute_points(self, cart_coords: np.array):
         self._points = cart2pol(np.subtract(cart_coords, self._pos))
@@ -135,7 +141,10 @@ class vortex(Flow):
         for pos in cart_coords:
             if not (pos[0] == self._pos[0] and pos[1] == self._pos[1]):
                 return_points = np.vstack((return_points, [pos]))
-        return return_points[1:]
+        try:
+            return return_points[1:]
+        except ValueError:
+            print("Somehow, you have only given points that lie in singularities. Please reconsider your decisions.")
 
     def compute_points(self, cart_coords: np.array):
         self._points = cart2pol(np.subtract(cart_coords, self._pos))
@@ -215,8 +224,9 @@ def generate_cart_gradients(F, positions_cart):
 def main():
     stop = 1
     while stop == 1:
-        incr = 25
-        domain = ui.graphDim()
+        incr = 50
+        # domain = ui.graphDim()
+        domain = [-1, 1, -1, 1]
         test_x_cartesian = np.linspace(domain[0], domain[1], incr)
         test_y_cartesian = np.linspace(domain[2], domain[3], incr)
         xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
@@ -269,9 +279,52 @@ def main():
 
         ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, color, angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
         print("\n\nPlots generated. Close window to continue")
-
         plt.show()
-        stop = int(input("start over? \n1) yes \n2) no \n"))
+
+        stop2 = 0
+        while stop2 == 0:
+            string1 = "Would you like to calculate another velocity gradient at a specific point?\n1) Yes, I love this flow scenario\n2) No, I've seen enough of this one \n"
+            input1 = int(input(string1))
+            if input1 == 1:
+                string2 = "enter x coordinate:\n"
+                string3 = "enter y coordinate:\n"
+                x = float(input(string2))
+                y = float(input(string3))
+                test_points_cartesian = np.array([[x, y]])
+
+                for i, key in enumerate(dict_in):
+                    test_points_cartesian = flow_list[i].rule_out_points(test_points_cartesian)
+                    try:
+                        check = test_points_cartesian.shape[1]
+                    except:
+                        print("Whether or not you meant to, you just asked for a test point that was in a singularity. Give a new test point please")
+                        x = float(input(string2))
+                        y = float(input(string3))
+                        test_points_cartesian = np.array([[x, y]])
+
+                pos_vec_pol = cart2pol(test_points_cartesian)
+
+
+
+
+                print("computing flow gradient for the following potential flow solutions:")
+                flow.compute_points(test_points_cartesian)
+                F = flow.compute_flow()
+                for flow in flow_list[1:]:
+                    print(flow)
+                    flow.compute_points(test_points_cartesian)
+                    F += flow.compute_flow()
+
+                print("Done. At (x, y) = {}, the following has been calculated:".format(test_points_cartesian[0]))
+                grad1 = F.flow[0].grad[0]*np.cos(pos_vec_pol[0][1]) + F.flow[0].grad[1]*np.cos((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
+                grad2 = F.flow[0].grad[0]*np.sin(pos_vec_pol[0][1]) + F.flow[0].grad[1]*np.sin((np.pi/2) + pos_vec_pol[0][1])/pos_vec_pol[0][0]
+                print("equivalent polar coordinate: (r, theta) = ", pos_vec_pol[0])
+                print("flow potential: ", F.flow[0].val)
+                print("polar gradient value: (dr, dtheta) = ", F.flow[0].grad)
+                print("cartesian gradient value: (dx, dy) = ", [grad1, grad2])
+            else:
+                stop2 = 1
+        stop = int(input("start over? \n1) Yes, potential flow is wonderful and I want more \n2) No, I think I've had enough potential flow \n"))
 
 
     print("exiting potential flow visualization")
