@@ -1,8 +1,8 @@
 import numpy as np
-from CMAutoDiff.CMGradobject import CMGobject as cmg
-import CMAutoDiff.CMfunc as cm
-# from CMGradobject import CMGobject as cmg
-# import CMfunc as cm
+# from CMAutoDiff.CMGradobject import CMGobject as cmg
+# import CMAutoDiff.CMfunc as cm
+from CMGradobject import CMGobject as cmg
+import CMfunc as cm
 
 import matplotlib.pyplot as plt
 
@@ -212,7 +212,7 @@ def main():
     test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
 
     dict_in = {
-        "uniform1": [1.],
+        "uniform1": [5.],
         "doublet1": [1., 0., 0.],
         "source1": [2., 0.5, 0.5],
         "sink1": [2., -0.5, -0.5],
@@ -243,7 +243,7 @@ def main():
 
     max_grad = np.max(np.linalg.norm(cartesian_gradients, axis=1))
 
-    fig, (ax_l, ax_r) = plt.subplots(1,2, figsize=(16, 8))
+    fig, ax = plt.subplots(1,1, figsize=(12, 12))
 
     plotU = cartesian_gradients.T[0]/max_grad
 
@@ -251,8 +251,7 @@ def main():
 
     plotN = -1
 
-    ax_l.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, np.sqrt(((plotV-plotN)/2)*2 + ((plotU-plotN)/2)*2), angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
-    ax_r.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], cartesian_gradients.T[0]/max_grad, cartesian_gradients.T[1]/max_grad, angles='uv', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
+    ax.quiver(test_points_cartesian.T[0], test_points_cartesian.T[1], plotU, plotV, np.sqrt(((plotV-plotN)/2)*2 + ((plotU-plotN)/2)*2), angles='xy', scale=2, scale_units='xy', minshaft=1, minlength=1, width=0.01, units='xy')
     print("\n\nPlots generated. Close window to continue")
 
     plt.show()
