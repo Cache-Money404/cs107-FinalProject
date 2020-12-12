@@ -1,9 +1,9 @@
 import numpy as np
+
 from CMAutoDiff.CMGradobject import CMGobject as cmg
 import CMAutoDiff.CMfunc as cm
-# from CMGradobject import CMGobject as cmg
-# import CMfunc as cm
 
+# import ui
 import matplotlib.pyplot as plt
 
 def cart2pol(cart_vec): # converts position coordinates
@@ -210,6 +210,8 @@ def main():
     test_y_cartesian = np.linspace(-1, 1, incr)
     xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
     test_points_cartesian = np.vstack((xv.flatten(), yv.flatten() )).T
+
+    # ui.Interface()
 
     dict_in = {
         "uniform1": [5.],
