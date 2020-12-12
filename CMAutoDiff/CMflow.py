@@ -205,7 +205,7 @@ def identify_flow(key_in, inputs):
         "vortex": vortex,
         "doublet": doublet,
         "tornado": tornado
-
+        "whirlpool": whirlpool
     }
     for key in library:
         if key in key_in:
@@ -225,8 +225,8 @@ def main():
     stop = 1
     while stop == 1:
         incr = 50
-        domain = ui.graphDim()
         domain = [-1, 1, -1, 1]
+        domain = ui.graphDim()
         test_x_cartesian = np.linspace(domain[0], domain[1], incr)
         test_y_cartesian = np.linspace(domain[2], domain[3], incr)
         xv, yv = np.meshgrid(test_x_cartesian, test_y_cartesian)
@@ -239,6 +239,7 @@ def main():
             "sink1": [2., -0.5, -0.5],
             "vortex1": [3., 0., 0.],
             "tornado1": [1., 1., 0., 0.]
+            "whirlpool1": [1., 1., 0., 0.]
         }
         dict_in = ui.Interface()
         print(dict_in)

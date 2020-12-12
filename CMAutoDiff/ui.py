@@ -11,9 +11,9 @@ def Interface():
     d = {}
     count_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     while stop == 0:
-        string1 = "Enter Potential Flow Vizualization: \n 1) uniform \n 2) doublet \n 3) sink \n 4) source \n 5) sphere \n 6) vortex \n 7) corner \n 8) tornado \n 9) Whirlpool \n 10) Rankine Half-body \n 11) vortex row \n 12) Rankine oval \n 13) exit \n"
+        string1 = "Enter Potential Flow Vizualization: \n 1) uniform \n 2) doublet \n 3) sink \n 4) source \n 5) vortex \n 6) tornado \n 7) whirlpool \n 8) exit \n"
         input1 = int(input(string1))
-        if input1 == 13: #Exit
+        if input1 == 8: #Exit
             stop = 1
         else:
             if input1 == 1: #Uniform
@@ -57,18 +57,7 @@ def Interface():
                 count_list[input1] += 1
                 d['source'+str(count_list[input1])] = list_it
 
-            elif input1 == 5: #Sphere
-                list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter X Value:"
-                string4  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                count_list[input1] += 1
-                d['sphere'+str(count_list[input1])] = list_it
-
-            elif input1 == 6: # Vortex
+            elif input1 == 5: # Vortex
                 list_it = []
                 string2 = "Enter Strength:"
                 string3  = "Enter X Value:"
@@ -79,18 +68,7 @@ def Interface():
                 count_list[input1] += 1
                 d['vortex'+str(count_list[input1])] = list_it
 
-            elif input1 == 7: # Corner
-                list_it = []
-                string2 = "Enter scale:"
-                string3  = "Enter X Value:"
-                string4  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                count_list[input1] += 1
-                d['corner'+str(count_list[input1])] = list_it
-
-            elif input1 == 8: # Tornado
+            elif input1 == 6: # Tornado
                 list_it = []
                 string2 = "Enter Strength:"
                 string3  = "Enter Vorticity:"
@@ -103,7 +81,7 @@ def Interface():
                 count_list[input1] += 1
                 d['tornado'+str(count_list[input1])] = list_it
 
-            elif input1 == 9: # Whirlpool
+            elif input1 == 7: # Whirlpool
                 list_it = []
                 string2 = "Enter Strength:"
                 string3  = "Enter Vorticity:"
@@ -115,43 +93,6 @@ def Interface():
                 list_it.append(float(input(string5)))
                 count_list[input1] += 1
                 d['whirlpool'+str(count_list[input1])] = list_it
-
-            elif input1 == 10: # Rankine Half Body
-                list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Width:"
-                string4  = "Enter X Value:"
-                string5  = "Enter Y Value:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
-                count_list[input1] += 1
-                d['rankine_half_body'+str(count_list[input1])] = list_it
-
-            elif input1 == 11: # Vortex Row
-                list_it = []
-                string2 = "Enter Strength:"
-                string3  = "Enter Spacing:"
-                string4  = "Enter Height:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                count_list[input1] += 1
-                d['vortex_row'+str(count_list[input1])] = list_it
-
-            elif input1 == 12: # Rankine Oval
-                list_it = []
-                string2 = "Enter Velocity:"
-                string3  = "Enter Strength:"
-                string4  = "Enter Height:"
-                string5  = "Enter Width:"
-                list_it.append(float(input(string2)))
-                list_it.append(float(input(string3)))
-                list_it.append(float(input(string4)))
-                list_it.append(float(input(string5)))
-                count_list[input1] += 1
-                d['rankine_oval'+str(count_list[input1])] = list_it
             else:
                 print("Invalid input, returning to top")
     return d
