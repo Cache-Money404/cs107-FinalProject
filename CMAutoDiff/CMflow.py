@@ -225,7 +225,7 @@ def main():
     stop = 1
     while stop == 1:
         incr = 50
-        # domain = ui.graphDim()
+        domain = ui.graphDim()
         domain = [-1, 1, -1, 1]
         test_x_cartesian = np.linspace(domain[0], domain[1], incr)
         test_y_cartesian = np.linspace(domain[2], domain[3], incr)
@@ -240,7 +240,7 @@ def main():
             "vortex1": [3., 0., 0.],
             "tornado1": [1., 1., 0., 0.]
         }
-        # dict_in = ui.Interface()
+        dict_in = ui.Interface()
         print(dict_in)
 
         flow_list = []
@@ -303,9 +303,6 @@ def main():
                         test_points_cartesian = np.array([[x, y]])
 
                 pos_vec_pol = cart2pol(test_points_cartesian)
-
-
-
 
                 print("computing flow gradient for the following potential flow solutions:")
                 flow.compute_points(test_points_cartesian)
